@@ -17,6 +17,6 @@ public class firstclass {
                 .setOAuthAccessTokenSecret("******************************************");
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
-        twitter.updateStatus("hello maven");
+        twitter.updateStatus("maven");
     }
 }
