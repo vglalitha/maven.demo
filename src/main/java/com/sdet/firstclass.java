@@ -11,12 +11,12 @@ public class firstclass {
         object.time();
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-                .setOAuthConsumerKey("uCqQl9INwhN22ysdP4gzhri4u")
-                .setOAuthConsumerSecret("GNLgpPzWYAhnXGpOzKhV2D5WwCx7nigpOGG9Hccb2JeX3NaiHI")
-                .setOAuthAccessToken("1450743367696994308-s3tLRyaDFFMe91bfZ4C1MaToeZPvsI")
-                .setOAuthAccessTokenSecret("FfgXirsqHLrPmXOFZqoe8Rk1zpTHLQlIqLnvd8cn3avcg");
+                .setOAuthConsumerKey("*********************")
+                .setOAuthConsumerSecret("******************************************")
+                .setOAuthAccessToken("**************************************************")
+                .setOAuthAccessTokenSecret("******************************************");
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
-        twitter.updateStatus("hiiiii");
+        twitter.updateStatus("hello maven");
     }
 }
