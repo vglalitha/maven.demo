@@ -1,6 +1,7 @@
 package com.dep.resource;
 
 import com.dep.tweeet;
+import org.eclipse.jetty.util.StringUtil;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -12,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.List;
 
@@ -27,18 +29,25 @@ public class DropResource {
 
     @POST
     @Path("/tweetAgain")
-    public String tweetAgain() throws TwitterException {
+    public Response tweetAgain(String post) throws TwitterException {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-                .setOAuthConsumerKey("vqXgKyjjlw7Isi6yNJQpzaIox")
-                .setOAuthConsumerSecret("JCfTCZdPmX1mWkRWFyA4Kxyw7Nao34ctjS1tcjBBNBU4d5nImW")
-                .setOAuthAccessToken("1450743367696994308-WM1cr2g13cLdLWQEnXo4QlKPc4Foi6")
-                .setOAuthAccessTokenSecret("Pse1CapF8eN5isvZhevLwosdnHFJrU6JZlSolOiilnB2k");
+                .setOAuthConsumerKey("0y5BEWvSstdsSzL1Sf73BKjIm")
+                .setOAuthConsumerSecret("nJ8D5SNDYbUUdyk3lQipGyZiVrvcob6KO4fHT3yANYNJscnee4")
+                .setOAuthAccessToken("1450743367696994308-dBUe5yjC4RsjyVt8cjht2Cmk0V9iS2")
+                .setOAuthAccessTokenSecret("NCJQOsxtxl3ynLmwBn9V7kGeUZ8e0aYADAFJWR6DFxR5q");
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
-        twitter.updateStatus("again");
 
-        return "Successfully posted";
+        String ret=null;
+        if(StringUtil.isEmpty(post)) {
+            return Response.status(400,"Please enter valid tweet").build();
+        }
+        else{
+            twitter.updateStatus(post);
+            return Response.status(200,"successfully tweeted").build();
+        }
+
     }
 
     @GET
@@ -46,10 +55,10 @@ public class DropResource {
     public String time () throws TwitterException {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-                .setOAuthConsumerKey("vqXgKyjjlw7Isi6yNJQpzaIox")
-                .setOAuthConsumerSecret("JCfTCZdPmX1mWkRWFyA4Kxyw7Nao34ctjS1tcjBBNBU4d5nImW")
-                .setOAuthAccessToken("1450743367696994308-WM1cr2g13cLdLWQEnXo4QlKPc4Foi6")
-                .setOAuthAccessTokenSecret("Pse1CapF8eN5isvZhevLwosdnHFJrU6JZlSolOiilnB2k");
+                .setOAuthConsumerKey("0y5BEWvSstdsSzL1Sf73BKjIm")
+                .setOAuthConsumerSecret("nJ8D5SNDYbUUdyk3lQipGyZiVrvcob6KO4fHT3yANYNJscnee4")
+                .setOAuthAccessToken("1450743367696994308-dBUe5yjC4RsjyVt8cjht2Cmk0V9iS2")
+                .setOAuthAccessTokenSecret("NCJQOsxtxl3ynLmwBn9V7kGeUZ8e0aYADAFJWR6DFxR5q");
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
         List<Status> status = twitter.getHomeTimeline();
