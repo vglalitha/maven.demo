@@ -51,7 +51,7 @@ public class DropResource {
     }
 
     @GET
-    @Path("/tweet")
+    @Path("/gettweets")
     public String time () throws TwitterException {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
