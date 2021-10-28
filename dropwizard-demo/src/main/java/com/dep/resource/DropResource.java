@@ -52,7 +52,7 @@ public class DropResource {
         String str[] = new String[size];
         int i = 0;
         for (Status st : status) {
-            str[i] = st.getUser().getName() + "-------" + st.getText();
+            str[i] = st.getUser().getName() + "------->" + st.getText();
             i++;
         } 
         return str;
