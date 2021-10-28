@@ -54,7 +54,7 @@ public class DropResource {
         for (Status st : status) {
             str[i] = st.getUser().getName() + "-------" + st.getText();
             i++;
-        }
+        } 
         return str;
     }
 }
