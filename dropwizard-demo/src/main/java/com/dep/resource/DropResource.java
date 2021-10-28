@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.List;
 
+@Produces(MediaType.APPLICATION_JSON)
 @Path("/api/1.0/twitter")
 public class DropResource {
 
@@ -30,15 +31,7 @@ public class DropResource {
     @POST
     @Path("/tweetAgain")
     public Response tweetAgain(String post) throws TwitterException {
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey("0y5BEWvSstdsSzL1Sf73BKjIm")
-                .setOAuthConsumerSecret("nJ8D5SNDYbUUdyk3lQipGyZiVrvcob6KO4fHT3yANYNJscnee4")
-                .setOAuthAccessToken("1450743367696994308-dBUe5yjC4RsjyVt8cjht2Cmk0V9iS2")
-                .setOAuthAccessTokenSecret("NCJQOsxtxl3ynLmwBn9V7kGeUZ8e0aYADAFJWR6DFxR5q");
-        TwitterFactory tf = new TwitterFactory(cb.build());
-        Twitter twitter = tf.getInstance();
-
+        Twitter twitter = TwitterFactory.getSingleton();
         String ret=null;
         if(StringUtil.isEmpty(post)) {
             return Response.status(400,"Please enter valid tweet").build();
@@ -52,19 +45,16 @@ public class DropResource {
 
     @GET
     @Path("/getTweets")
-    public String time () throws TwitterException {
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey("0y5BEWvSstdsSzL1Sf73BKjIm")
-                .setOAuthConsumerSecret("nJ8D5SNDYbUUdyk3lQipGyZiVrvcob6KO4fHT3yANYNJscnee4")
-                .setOAuthAccessToken("1450743367696994308-dBUe5yjC4RsjyVt8cjht2Cmk0V9iS2")
-                .setOAuthAccessTokenSecret("NCJQOsxtxl3ynLmwBn9V7kGeUZ8e0aYADAFJWR6DFxR5q");
-        TwitterFactory tf = new TwitterFactory(cb.build());
-        Twitter twitter = tf.getInstance();
+    public String[] time () throws TwitterException {
+        Twitter twitter = TwitterFactory.getSingleton();
         List<Status> status = twitter.getHomeTimeline();
+        int size = status.size();
+        String str[] = new String[size];
+        int i = 0;
         for (Status st : status) {
-            System.out.println(st.getUser().getName() + "-------" + st.getText());
+            str[i] = st.getUser().getName() + "-------" + st.getText();
+            i++;
         }
-        return "recieved timeline";
+        return str;
     }
 }
