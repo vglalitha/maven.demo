@@ -28,24 +28,29 @@ public class DropResource {
         return "Ping Received at " + new Date();
     }
 
-    @POST
+   @POST
     @Path("/tweetAgain")
-    public Response tweetAgain(String post) throws TwitterException {
+    public Response tweetAgain(Request request) throws TwitterException {
         Twitter twitter = TwitterFactory.getSingleton();
-        String ret=null;
+        String post= request.getMessage();
         if(StringUtil.isEmpty(post)) {
             return Response.status(400,"Please enter valid tweet").build();
         }
-        else{
-            twitter.updateStatus(post);
-            return Response.status(200,"successfully tweeted").build();
+        else {
+            try {
+                twitter.updateStatus(post);
+                return Response.status(500, "request incomplete").build();
+            }
+            catch (TwitterException e) {
+                return Response.status(200,"successfully tweeted").build();
+            }
         }
 
     }
-
+    
     @GET
     @Path("/getTweets")
-    public String[] time () throws TwitterException {
+    public static String[] time () throws TwitterException {
         Twitter twitter = TwitterFactory.getSingleton();
         List<Status> status = twitter.getHomeTimeline();
         int size = status.size();
