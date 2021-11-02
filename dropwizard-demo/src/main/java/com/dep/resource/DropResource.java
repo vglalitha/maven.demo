@@ -19,7 +19,7 @@ import java.util.List;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/api/1.0/twitter")
-public class DropResource {
+public class Controller {
 
     @GET
     @Path("/healthCheck")
