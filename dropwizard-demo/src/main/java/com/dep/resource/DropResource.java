@@ -50,16 +50,13 @@ public class DropResource {
     
     @GET
     @Path("/getTweets")
-    public static String[] time () throws TwitterException {
+    public static ArrayList<String> time () throws TwitterException {
         Twitter twitter = TwitterFactory.getSingleton();
+        ArrayList<String> arrayList = new ArrayList<String>();
         List<Status> status = twitter.getHomeTimeline();
-        int size = status.size();
-        String str[] = new String[size];
-        int i = 0;
         for (Status st : status) {
-            str[i] = st.getUser().getName() + "------->" + st.getText();
-            i++;
+            arrayList.add(st.getText());
         } 
-        return str;
+        return arrayList;
     }
 }
