@@ -39,10 +39,10 @@ public class DropResource {
         else {
             try {
                 twitter.updateStatus(post);
-                return Response.status(500, "request incomplete").build();
+                return Response.status(500, "internal server error").build();
             }
             catch (TwitterException e) {
-                return Response.status(200,"successfully tweeted").build();
+                return Response.status(200,"Request is successful ").build();
             }
         }
 
