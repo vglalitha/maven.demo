@@ -50,7 +50,7 @@ public class DropResource {
     
     @GET
     @Path("/getTweets")
-    public static ArrayList<String> time () throws TwitterException {
+    public static ArrayList<String> Gettweets () throws TwitterException {
         Twitter twitter = TwitterFactory.getSingleton();
         ArrayList<String> arrayList = new ArrayList<String>();
         List<Status> status = twitter.getHomeTimeline();
