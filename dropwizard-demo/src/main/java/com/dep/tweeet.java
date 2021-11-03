@@ -1,7 +1,6 @@
 package com.dep;
 
 import com.dep.config.BRSConfiguration;
-import com.dep.resource.DropResource;
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
 import io.dropwizard.setup.Environment;

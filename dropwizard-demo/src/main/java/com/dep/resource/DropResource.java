@@ -1,6 +1,5 @@
 package com.dep.resource;
 
-import com.dep.tweeet;
 import org.eclipse.jetty.util.StringUtil;
 import twitter4j.Status;
 import twitter4j.Twitter;
