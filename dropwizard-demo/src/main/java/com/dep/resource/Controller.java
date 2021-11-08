@@ -22,7 +22,33 @@ public class Controller {
 
     @GET
     @Path("/getTweets")
-    public static ArrayList<String> Gettweets() throws TwitterException {
+    public Response GetTweets() {
+        Twitter twitter = TwitterFactory.getSingleton();
+        List<Status> status = null;
+        try{
+            status = twitter.getHomeTimeline();
+        }catch(TwitterException e){
+            e.printStackTrace();
+        }
+        int size =status.size();
+        String[] str =new String[size];
+        int i=0;
+        if(StringUtil.isEmpty(String.valueOf(str))) {
+            return Response.status(400, "please Enter a valid tweet").build();
+        } else {
+            for (Status st : status) {
+                str[i] = st.getUser().getName() + "-------" + st.getText();
+                i++;
+            }
+            return Response.ok(str).build();
+
+        }
+    }
+
+
+    @GET
+    @Path("/getTweets")
+    public static ArrayList<String> getTweets() throws TwitterException {
         Twitter twitter = TwitterFactory.getSingleton();
         ArrayList<String> arrayList = new ArrayList<String>();
         List<Status> status = twitter.getHomeTimeline();
@@ -56,4 +82,5 @@ public class Controller {
         }
 
     }
+
 }
