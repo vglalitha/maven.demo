@@ -104,17 +104,6 @@ public class ControllerTest {
     }
 
 
-    @Test
-    public void testSearch_finder() throws TwitterException {
-        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
-        Twitter twitter = TwitterFactory.getSingleton();
-        Query query = new Query("source:twitter4j yusukey");
-        QueryResult result = twitter.search(query);
-        for (Status status : result.getTweets()) {
-            System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
-        }
-    }
-
 
     @Test
     public void test_postToTwitterUsingTwitter4J() {
