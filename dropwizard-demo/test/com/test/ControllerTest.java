@@ -10,10 +10,12 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
+
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -39,7 +41,7 @@ public class ControllerTest {
         Response expectedTweet = Response.ok(arrayList).build();
         Response actualTweet = tweetPost.GetTweets();
         Assert.assertEquals(expectedTweet.getStatus(), actualTweet.getStatus());
-        Assert.assertEquals(expectedTweet.getStatus(),actualTweet.getStatus());
+        Assert.assertEquals(expectedTweet.getStatus(), actualTweet.getStatus());
     }
 
     @Test
@@ -74,8 +76,8 @@ public class ControllerTest {
         Twitter twitter = TwitterFactory.getSingleton();
         String message = "Testing Twitter4J, posting to Twitter programatically hi .";
         Status status = twitter.updateStatus(message);
-        System.out.println("Successfully updated the status to [" + status.getText() + "].");
     }
+
 
     @Test
     public void testSearch_finder() throws TwitterException {
@@ -84,7 +86,7 @@ public class ControllerTest {
         Query query = new Query("source:twitter4j yusukey");
         QueryResult result = twitter.search(query);
         for (Status status : result.getTweets()) {
-          System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
+            System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
         }
     }
 
