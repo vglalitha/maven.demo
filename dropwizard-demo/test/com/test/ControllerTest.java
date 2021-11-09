@@ -2,7 +2,10 @@ package com.test;
 
 import com.dep.config.BRSConfiguration;
 import com.dep.resource.Controller;
+<<<<<<< HEAD
 import com.dep.resource.Request;
+=======
+>>>>>>> fd1af61 (conflict issue)
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
+<<<<<<< HEAD
 
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -18,6 +22,12 @@ import java.util.List;
 
 import static javax.ws.rs.core.Response.ok;
 import static org.mockito.Mockito.when;
+=======
+import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
+import static org.mockito.Mockito.*;
+>>>>>>> fd1af61 (conflict issue)
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -37,6 +47,7 @@ public class ControllerTest {
         when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         ArrayList<String> str = new ArrayList<String>();
         str.add("hlo");
+<<<<<<< HEAD
         when(tweetPost.GetTweets()).thenReturn(ok(str).build());
         ArrayList<String> arrayList = new ArrayList<String>();
         arrayList.add("hlo");
@@ -54,6 +65,27 @@ public class ControllerTest {
         Response actualTweet = tweetPost.GetTweets();
         Assert.assertEquals(expectedTweet.getEntity(), actualTweet.getEntity());
         Assert.assertEquals(expectedTweet.getStatus(), actualTweet.getStatus());
+=======
+        when(tweetPost.GetTweets()).thenReturn(Response.ok(str).build());
+        ArrayList<String> arrayList = new ArrayList<String>();
+        arrayList.add("hlo");
+        Response expectedTweet = Response.ok(arrayList).build();
+        Response actualTweet = tweetPost.GetTweets();
+        Assert.assertEquals(expectedTweet.getStatus(), actualTweet.getStatus());
+        Assert.assertEquals(expectedTweet.getStatus(),actualTweet.getStatus());
+    }
+
+    @Test
+    public void testcase_noTweetsFound() throws TwitterException {
+        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
+        ArrayList<String> expectedTweet = null;
+        when(tweetPost.GetTweets()).thenReturn(Response.ok().build());
+        ArrayList<String> actualTweet = Controller.getTweets();
+        if (actualTweet.isEmpty()) {
+            actualTweet = null;
+        }
+        Assert.assertEquals(expectedTweet, actualTweet);
+>>>>>>> fd1af61 (conflict issue)
     }
 
     @Test
@@ -71,6 +103,7 @@ public class ControllerTest {
     }
 
     @Test
+<<<<<<< HEAD
     public void testcase_postLength() throws TwitterException {
         when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         ArrayList<String> str1 = new ArrayList<String>();
@@ -125,6 +158,28 @@ public class ControllerTest {
 
 
 
+=======
+    public void testcase_sendTweet_success() throws TwitterException {
+        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
+        Twitter twitter = TwitterFactory.getSingleton();
+        String message = "Testing Twitter4J, posting to Twitter programatically hi .";
+        Status status = twitter.updateStatus(message);
+        System.out.println("Successfully updated the status to [" + status.getText() + "].");
+    }
+
+    @Test
+    public void testSearch_finder() throws TwitterException {
+        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
+        Twitter twitter = TwitterFactory.getSingleton();
+        Query query = new Query("source:twitter4j yusukey");
+        QueryResult result = twitter.search(query);
+        for (Status status : result.getTweets()) {
+          System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
+        }
+    }
+
+
+>>>>>>> fd1af61 (conflict issue)
     @Test
     public void test_postToTwitterUsingTwitter4J() {
         Twitter twitter = TwitterFactory.getSingleton();
