@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.ws.rs.core.Response.ok;
 import static org.mockito.Mockito.when;
 
 
@@ -36,25 +37,23 @@ public class ControllerTest {
         when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         ArrayList<String> str = new ArrayList<String>();
         str.add("hlo");
-        when(tweetPost.GetTweets()).thenReturn(Response.ok(str).build());
+        when(tweetPost.GetTweets()).thenReturn(ok(str).build());
         ArrayList<String> arrayList = new ArrayList<String>();
         arrayList.add("hlo");
-        Response expectedTweet = Response.ok(arrayList).build();
+        Response expectedTweet = ok(arrayList).build();
         Response actualTweet = tweetPost.GetTweets();
         Assert.assertEquals(expectedTweet.getStatus(), actualTweet.getStatus());
         Assert.assertEquals(expectedTweet.getStatus(), actualTweet.getStatus());
     }
 
     @Test
-    public void testcase_noTweetsFound() throws TwitterException {
+    public void testcase_noTweetsFound() {
         when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
-        ArrayList<String> expectedTweet = null;
         when(tweetPost.GetTweets()).thenReturn(Response.ok().build());
-        ArrayList<String> actualTweet = Controller.getTweets();
-        if (actualTweet.isEmpty()) {
-            actualTweet = null;
-        }
-        Assert.assertEquals(expectedTweet, actualTweet);
+        Response expectedTweet = Response.ok().build();
+        Response actualTweet = tweetPost.GetTweets();
+        Assert.assertEquals(expectedTweet.getEntity(), actualTweet.getEntity());
+        Assert.assertEquals(expectedTweet.getStatus(), actualTweet.getStatus());
     }
 
     @Test
@@ -78,10 +77,10 @@ public class ControllerTest {
         str1.add("msg");
         Request request = new Request();
         String post = request.getMessage();
-        when(tweetPost.tweetAgain(request)).thenReturn(Response.ok(str1).build());
+        when(tweetPost.tweetAgain(request)).thenReturn(ok(str1).build());
         ArrayList<String> str = new ArrayList<String>();
         str.add("msg");
-        Response expected = Response.ok(str).build();
+        Response expected = ok(str).build();
         Response actual = tweetPost.tweetAgain(request);
         Assert.assertEquals(expected.getLength(), actual.getLength());
         Assert.assertEquals(expected.getEntity(), actual.getEntity());
@@ -92,7 +91,7 @@ public class ControllerTest {
     public void testcase_sendTweet_success(){
         when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         Twitter twitter = TwitterFactory.getSingleton();
-        String expected = "Testing Twitter4J";
+        String expected = "Testing Twitter";
         boolean T;
         try{
             Status status = twitter.updateStatus(expected);
@@ -101,6 +100,27 @@ public class ControllerTest {
             T = false;
         }
         Assert.assertTrue(T);
+    }
+    @Test
+    public void testcase_searchTweets() throws TwitterException {
+        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
+        ArrayList<String> tweet = new ArrayList<String>();
+        tweet.add("hlo");
+        tweet.add("hi");
+        when(tweetPost.GetTweets()).thenReturn(ok(tweet).build());
+        Twitter twitter = TwitterFactory.getSingleton();
+        Query query = new Query("source:twitter4j lalitha_vg");
+        QueryResult result = twitter.search(query);
+        boolean b = false;
+        try {
+            for (Status status : result.getTweets()) {
+                System.out.println(status);
+                b = true;
+            }
+        } catch (Exception e) {
+            b = false;
+        }
+        Assert.assertFalse(b);
     }
 
 
