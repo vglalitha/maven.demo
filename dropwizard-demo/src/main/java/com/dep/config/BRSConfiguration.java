@@ -2,7 +2,7 @@ package com.dep.config;
 
 import io.dropwizard.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
-
+/*configurations*/
 public class BRSConfiguration extends Configuration {
     public ConfigurationBuilder configurationBuilder(){
         ConfigurationBuilder cb = new ConfigurationBuilder();
