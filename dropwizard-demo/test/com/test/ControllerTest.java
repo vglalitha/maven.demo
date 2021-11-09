@@ -2,6 +2,7 @@ package com.test;
 
 import com.dep.config.BRSConfiguration;
 import com.dep.resource.Controller;
+import com.dep.resource.Request;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,11 +72,35 @@ public class ControllerTest {
     }
 
     @Test
-    public void testcase_sendTweet_success() throws TwitterException {
+    public void testcase_postLength() throws TwitterException {
+        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
+        ArrayList<String> str1 = new ArrayList<String>();
+        str1.add("msg");
+        Request request = new Request();
+        String post = request.getMessage();
+        when(tweetPost.tweetAgain(request)).thenReturn(Response.ok(str1).build());
+        ArrayList<String> str = new ArrayList<String>();
+        str.add("msg");
+        Response expected = Response.ok(str).build();
+        Response actual = tweetPost.tweetAgain(request);
+        Assert.assertEquals(expected.getLength(), actual.getLength());
+        Assert.assertEquals(expected.getEntity(), actual.getEntity());
+        Assert.assertEquals(expected.getStatus(), actual.getStatus());
+    }
+
+    @Test
+    public void testcase_sendTweet_success(){
         when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         Twitter twitter = TwitterFactory.getSingleton();
-        String message = "Testing Twitter4J, posting to Twitter programatically hi .";
-        Status status = twitter.updateStatus(message);
+        String expected = "Testing Twitter4J";
+        boolean T;
+        try{
+            Status status = twitter.updateStatus(expected);
+            T = true;
+        }catch(Exception e){
+            T = false;
+        }
+        Assert.assertTrue(T);
     }
 
 
