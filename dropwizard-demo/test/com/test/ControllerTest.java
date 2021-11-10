@@ -34,7 +34,7 @@ public class ControllerTest {
 
     @Test
     public void testcase1_getTweets() {
-        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
+        //when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         ArrayList<String> str = new ArrayList<String>();
         str.add("hlo");
         when(tweetPost.GetTweets()).thenReturn(ok(str).build());
@@ -48,7 +48,7 @@ public class ControllerTest {
 
     @Test
     public void testcase_noTweetsFound() {
-        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
+        //when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         when(tweetPost.GetTweets()).thenReturn(Response.ok().build());
         Response expectedTweet = Response.ok().build();
         Response actualTweet = tweetPost.GetTweets();
@@ -59,7 +59,7 @@ public class ControllerTest {
 
     @Test
     public void testcase2_getTweets() throws TwitterException {
-        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
+        //when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         Twitter twitter = TwitterFactory.getSingleton();
         ArrayList<String> arrayList = new ArrayList<String>();
         List<Status> status = twitter.getHomeTimeline();
@@ -73,7 +73,7 @@ public class ControllerTest {
 
     @Test
     public void testcase_postLength() throws TwitterException {
-        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
+        //when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         ArrayList<String> str1 = new ArrayList<String>();
         str1.add("msg");
         Request request = new Request();
@@ -90,7 +90,7 @@ public class ControllerTest {
 
     @Test
     public void testcase_sendTweet_success() {
-        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
+        //when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         Twitter twitter = TwitterFactory.getSingleton();
         String expected = "Testing Twitter";
         boolean T;
@@ -105,7 +105,7 @@ public class ControllerTest {
 
     @Test
     public void testcase_searchTweets() throws TwitterException {
-        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
+        //when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         ArrayList<String> tweet = new ArrayList<String>();
         tweet.add("hlo");
         tweet.add("hi");
@@ -130,7 +130,7 @@ public class ControllerTest {
     public void test_postToTwitterUsingTwitter4J() {
         Twitter twitter = TwitterFactory.getSingleton();
         String expectedMessage = "Test";
-        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
+        //when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         Status status = null;
         try {
             status = twitter.updateStatus(expectedMessage);

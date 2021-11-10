@@ -1,5 +1,6 @@
 package com.dep;
 
+
 import com.dep.config.BRSConfiguration;
 import com.dep.resource.Controller;
 import io.dropwizard.Application;
@@ -12,8 +13,7 @@ public class tweeet extends Application<BRSConfiguration> {
 
 
     @Override
-    public void run(BRSConfiguration brsConfiguration,
-                    Environment environment) throws Exception {
+    public void run(BRSConfiguration brsConfiguration, Environment environment) throws Exception {
         environment.jersey().register(new Controller());
 
     }
