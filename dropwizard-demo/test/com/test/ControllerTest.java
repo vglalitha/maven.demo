@@ -11,16 +11,13 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
+
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
 import static javax.ws.rs.core.Response.ok;
 import static org.mockito.Mockito.when;
-import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
-import static org.mockito.Mockito.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -57,26 +54,8 @@ public class ControllerTest {
         Response actualTweet = tweetPost.GetTweets();
         Assert.assertEquals(expectedTweet.getEntity(), actualTweet.getEntity());
         Assert.assertEquals(expectedTweet.getStatus(), actualTweet.getStatus());
-        when(tweetPost.GetTweets()).thenReturn(Response.ok(str).build());
-        ArrayList<String> arrayList = new ArrayList<String>();
-        arrayList.add("hlo");
-        Response expectedTweet = Response.ok(arrayList).build();
-        Response actualTweet = tweetPost.GetTweets();
-        Assert.assertEquals(expectedTweet.getStatus(), actualTweet.getStatus());
-        Assert.assertEquals(expectedTweet.getStatus(),actualTweet.getStatus());
     }
 
-    @Test
-    public void testcase_noTweetsFound() throws TwitterException {
-        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
-        ArrayList<String> expectedTweet = null;
-        when(tweetPost.GetTweets()).thenReturn(Response.ok().build());
-        ArrayList<String> actualTweet = Controller.getTweets();
-        if (actualTweet.isEmpty()) {
-            actualTweet = null;
-        }
-        Assert.assertEquals(expectedTweet, actualTweet);
-    }
 
     @Test
     public void testcase2_getTweets() throws TwitterException {
@@ -110,19 +89,20 @@ public class ControllerTest {
     }
 
     @Test
-    public void testcase_sendTweet_success(){
+    public void testcase_sendTweet_success() {
         when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
         Twitter twitter = TwitterFactory.getSingleton();
         String expected = "Testing Twitter";
         boolean T;
-        try{
+        try {
             Status status = twitter.updateStatus(expected);
             T = true;
-        }catch(Exception e){
+        } catch (Exception e) {
             T = false;
         }
         Assert.assertTrue(T);
     }
+
     @Test
     public void testcase_searchTweets() throws TwitterException {
         when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
