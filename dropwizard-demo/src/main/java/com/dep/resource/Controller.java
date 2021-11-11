@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/api/1.0/twitter")
 public class Controller {
-   // Logger logger = LoggerFactory.getLogger(Controller.class);
     public static final Logger log =LoggerFactory.getLogger(Controller.class);
 
 
@@ -51,7 +50,6 @@ public class Controller {
     @POST
     @Path("/tweetAgain")
     public Response tweetAgain(Request request) throws TwitterException {
-        //logger.info("got into post");
         Twitter twitter = TwitterFactory.getSingleton();
         String post = request.getMessage();
         if (StringUtil.isEmpty(post)) {
