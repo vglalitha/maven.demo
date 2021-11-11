@@ -32,30 +32,6 @@ public class ControllerTest {
         tweetPost = Mockito.mock(Controller.class);
     }
 
-    @Test
-    public void testcase1_getTweets() {
-        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
-        ArrayList<String> str = new ArrayList<String>();
-        str.add("hlo");
-        when(tweetPost.GetTweets()).thenReturn(ok(str).build());
-        ArrayList<String> arrayList = new ArrayList<String>();
-        arrayList.add("hlo");
-        Response expectedTweet = ok(arrayList).build();
-        Response actualTweet = tweetPost.GetTweets();
-        Assert.assertEquals(expectedTweet.getStatus(), actualTweet.getStatus());
-        Assert.assertEquals(expectedTweet.getStatus(), actualTweet.getStatus());
-    }
-
-    @Test
-    public void testcase_noTweetsFound() {
-        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
-        when(tweetPost.GetTweets()).thenReturn(Response.ok().build());
-        Response expectedTweet = Response.ok().build();
-        Response actualTweet = tweetPost.GetTweets();
-        Assert.assertEquals(expectedTweet.getEntity(), actualTweet.getEntity());
-        Assert.assertEquals(expectedTweet.getStatus(), actualTweet.getStatus());
-    }
-
 
     @Test
     public void testcase2_getTweets() throws TwitterException {
@@ -101,28 +77,6 @@ public class ControllerTest {
             T = false;
         }
         Assert.assertTrue(T);
-    }
-
-    @Test
-    public void testcase_searchTweets() throws TwitterException {
-        when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
-        ArrayList<String> tweet = new ArrayList<String>();
-        tweet.add("hlo");
-        tweet.add("hi");
-        when(tweetPost.GetTweets()).thenReturn(ok(tweet).build());
-        Twitter twitter = TwitterFactory.getSingleton();
-        Query query = new Query("source:twitter4j lalitha_vg");
-        QueryResult result = twitter.search(query);
-        boolean b = false;
-        try {
-            for (Status status : result.getTweets()) {
-                System.out.println(status);
-                b = true;
-            }
-        } catch (Exception e) {
-            b = false;
-        }
-        Assert.assertFalse(b);
     }
 
 
