@@ -15,46 +15,27 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/api/1.0/twitter")
 public class Controller {
-
-    @GET
-    @Path("/getTweets")
-    public Response GetTweets() {
-        Twitter twitter = TwitterFactory.getSingleton();
-        List<Status> status = null;
-        try{
-            status = twitter.getHomeTimeline();
-        }catch(TwitterException e){
-            e.printStackTrace();
-        }
-        int size =status.size();
-        String[] str =new String[size];
-        int i=0;
-        if(StringUtil.isEmpty(String.valueOf(str))) {
-            return Response.status(400, "please Enter a valid tweet").build();
-        } else {
-            for (Status st : status) {
-                str[i] = st.getUser().getName() + "-------" + st.getText();
-                i++;
-            }
-            return Response.ok(str).build();
-
-        }
-    }
+    public static final Logger log =LoggerFactory.getLogger(Controller.class);
 
 
     @GET
-    @Path("/getTweets")
+    @Path("/GetTweets")
     public static ArrayList<String> getTweets() throws TwitterException {
+        log.info("into get method");
         Twitter twitter = TwitterFactory.getSingleton();
         ArrayList<String> arrayList = new ArrayList<String>();
         List<Status> status = twitter.getHomeTimeline();
         for (Status st : status) {
             arrayList.add(st.getText());
         }
+        log.info("retrieved posts successfully");
         return arrayList;
     }
 
@@ -62,21 +43,27 @@ public class Controller {
     @GET
     @Path("/healthCheck")
     public String healthCheck() {
+        log.info("got into healthCheck");
+        log.trace("home method access");
         return "Ping Received at " + new Date();
     }
 
     @POST
     @Path("/tweetAgain")
     public Response tweetAgain(Request request) throws TwitterException {
+        log.info("got into post");
         Twitter twitter = TwitterFactory.getSingleton();
         String post = request.getMessage();
         if (StringUtil.isEmpty(post)) {
+            log.error("error happened");
             return Response.status(400, "Please enter valid tweet").build();
         } else {
             Status status = twitter.updateStatus(post);
             if (status.getText().equals(post)) {
+                log.info("successfully posted");
                 return Response.status(200, "Request is successful").build();
             } else {
+                log.error("internal error occurred");
                 return Response.status(500, "internal server error").build();
             }
         }
