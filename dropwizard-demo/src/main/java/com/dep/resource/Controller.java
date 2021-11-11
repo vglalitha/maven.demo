@@ -35,6 +35,7 @@ public class Controller {
         for (Status st : status) {
             arrayList.add(st.getText());
         }
+        log.info("retrieved posts successfully");
         return arrayList;
     }
 
@@ -50,6 +51,7 @@ public class Controller {
     @POST
     @Path("/tweetAgain")
     public Response tweetAgain(Request request) throws TwitterException {
+        log.info("got into post");
         Twitter twitter = TwitterFactory.getSingleton();
         String post = request.getMessage();
         if (StringUtil.isEmpty(post)) {
@@ -61,6 +63,7 @@ public class Controller {
                 log.info("successfully posted");
                 return Response.status(200, "Request is successful").build();
             } else {
+                log.error("internal error occurred");
                 return Response.status(500, "internal server error").build();
             }
         }
