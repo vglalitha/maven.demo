@@ -32,7 +32,7 @@ public class ControllerTest {
         tweetPost = Mockito.mock(Controller.class);
     }
 
-
+/*
     @Test
     public void testcase2_getTweets() throws TwitterException {
         when(brsConfiguration.configurationBuilder()).thenReturn(new ConfigurationBuilder());
@@ -62,7 +62,7 @@ public class ControllerTest {
         Assert.assertEquals(expected.getLength(), actual.getLength());
         Assert.assertEquals(expected.getEntity(), actual.getEntity());
         Assert.assertEquals(expected.getStatus(), actual.getStatus());
-    }
+    }*/
 
     @Test
     public void testcase_sendTweet_success() {

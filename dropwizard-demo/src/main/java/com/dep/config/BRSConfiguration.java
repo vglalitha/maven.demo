@@ -12,38 +12,34 @@ import java.util.Properties;
 public class BRSConfiguration extends Configuration {
     String filepath="twitter4j.yml";
     String accessTokenSecret="";
-    String accessToken="";
     String consumerSecret="";
     String consumerKey="";
-    Properties properties= new Properties();
+    String accessToken="";
+    Properties properties=new Properties();
     FileInputStream fileInputStream;
     {
-        try{
+        try {
             fileInputStream = new FileInputStream(filepath);
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        try{
+        try {
             properties.load(fileInputStream);
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        accessTokenSecret =properties.getProperty("accessTokenSecret");
-        accessToken = properties.getProperty("accessToken");
-        consumerSecret = properties.getProperty("consumerSecret");
-        consumerKey = properties.getProperty("consumerKey");
-
+        accessTokenSecret= properties.getProperty("accessTokenSecret");
+        consumerSecret= properties.getProperty("consumerSecret");
+        consumerKey= properties.getProperty("consumerKey");
+        accessToken= properties.getProperty("accessToken");
     }
-   public ConfigurationBuilder configurationBuilder(){
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey("consumerKey")
-                .setOAuthConsumerSecret("consumerSecret")
-                .setOAuthAccessToken("accessToken")
-                .setOAuthAccessTokenSecret("accessTokenSecret");
-    return configurationBuilder();
+    public ConfigurationBuilder configurationBuilder() {
+        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder.setDebugEnabled(true)
+                .setOAuthConsumerKey(consumerKey)
+                .setOAuthConsumerSecret(consumerSecret)
+                .setOAuthAccessToken(accessToken)
+                .setOAuthAccessTokenSecret(accessTokenSecret);
+        return configurationBuilder;
     }
-
-
-
 }
