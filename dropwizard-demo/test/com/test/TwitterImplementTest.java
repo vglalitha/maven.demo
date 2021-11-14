@@ -49,7 +49,7 @@ public class TwitterImplementTest {
 
     @Test
     public void testCase_sendTweet_successCase() throws TwitterException {
-        Request.setMessage("Sad moment missing Home");
+        Request.setMessage("hiii");
         String expectedTweet=Request.getMessage();
         when(twitterImplement.getTwitterObject()).thenReturn(twitter);
         when(twitter.updateStatus(expectedTweet)).thenReturn(status);
@@ -58,7 +58,6 @@ public class TwitterImplementTest {
         try {
             status=PostTweet.sendTweet(expectedTweet);
         } catch (TwitterException e) {
-            //logger.error("Exception Occur",e);
         }
         String actualTweet=status.getText();
         Assert.assertEquals(expectedTweet,actualTweet);
