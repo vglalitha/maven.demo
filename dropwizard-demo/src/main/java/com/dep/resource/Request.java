@@ -14,18 +14,13 @@ public class Request {
     public Request()
     {}
     public String getMessage() {
+
         return message;
     }
 
     public void setMessage(String message) {
+
         this.message = message;
     }
-    public PostTweet getSendTweetObject(TwitterImplement twitterImplement)
-    {
-        return new PostTweet(twitterImplement);
-    }
-    public GetTimelineTweets getRetrieveTweetsObject(TwitterImplement twitterImplement)
-    {
-        return new GetTimelineTweets(twitterImplement);
-    }
+
 }

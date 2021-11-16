@@ -32,13 +32,14 @@ public class Controller {
     }
 
     public Controller() {
+        twitterImplement = new TwitterImplement();
     }
 
     @GET
     @Path("GetTweets")
     public Response fetchTweets(Request request) {
-        GetTimelineTweets getTimelineTweets = request.getRetrieveTweetsObject(twitterImplement);
-        return getTimelineTweets.fetchLatestTweets();
+        GetTimelineTweets getTimelineTweets = twitterImplement.getRetrieveTweetsObject();
+        return Response.ok(getTimelineTweets.fetchLatestTweets()).build();
     }
 
 
@@ -58,7 +59,7 @@ public class Controller {
             logger.error("error happened");
             return Response.status(400, "Please enter valid tweet").build();
         } else {
-            PostTweet postTweet = request.getSendTweetObject(twitterImplement);
+            PostTweet postTweet = twitterImplement.getSendTweetObject();
             Status status = postTweet.sendTweet(post);
             if (status.getText().equals(post)) {
                 logger.info("successfully posted");

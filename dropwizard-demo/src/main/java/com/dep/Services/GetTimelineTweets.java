@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import javax.ws.rs.core.Response;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,15 +14,15 @@ public class GetTimelineTweets {
     Logger logger = LoggerFactory.getLogger(GetTimelineTweets.class);
 
     public GetTimelineTweets(TwitterImplement twitterImplement) {
-        this.twitterImplement = twitterImplement;
+        this. twitterImplement= twitterImplement;
     }
     public GetTimelineTweets(){
     }
 
-    public Response fetchLatestTweets() {
+    public ArrayList<String> fetchLatestTweets() {
         ArrayList<String> arrayList = new ArrayList<String>();
         try {
-            Twitter twitter = twitterImplement.getTwitterObject();
+            Twitter twitter  = twitterImplement.getTwitterObject();
             List<Status> statuses = twitter.getHomeTimeline();
             for (Status status:statuses) {
                 arrayList.add(status.getText());
@@ -34,7 +34,7 @@ public class GetTimelineTweets {
             logger.info("No Tweets in timeline");
             arrayList.add("No Tweets found");
         }
-        return Response.ok(arrayList).build();
+        return arrayList;
     }
 
 }

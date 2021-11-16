@@ -17,8 +17,8 @@ public class TwitterImplement {
        this.twitterFactory=twitterFactory;
    }
    public TwitterImplement(){
-
    }
+
    public Twitter getTwitterObject(){
        BRSConfiguration brsConfiguration = new BRSConfiguration();
        ConfigurationBuilder configurationBuilder= brsConfiguration.configurationBuilder();
@@ -26,5 +26,13 @@ public class TwitterImplement {
        Twitter twitter = twitterFactory.getInstance();
        return twitter;
    }
+    public PostTweet getSendTweetObject()
+    {
+        return new PostTweet(this);
+    }
+    public GetTimelineTweets getRetrieveTweetsObject()
+    {
+        return new GetTimelineTweets(this);
+    }
 }
 
