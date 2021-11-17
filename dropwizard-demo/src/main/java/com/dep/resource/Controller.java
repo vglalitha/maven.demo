@@ -1,14 +1,11 @@
 package com.dep.resource;
 
-import com.dep.Services.GetTimelineTweets;
-import com.dep.Services.PostTweet;
 import com.dep.Services.TwitterImplement;
 import org.eclipse.jetty.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import twitter4j.Status;
 import twitter4j.TwitterException;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -19,8 +16,8 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/api/1.0/twitter")
 public class Controller {
-    public static final Logger logger = LoggerFactory.getLogger(Controller.class);
 
+    public static final Logger logger = LoggerFactory.getLogger(Controller.class);
     TwitterImplement twitterImplement;
 
     public Controller(TwitterImplement twitterImplement) {
