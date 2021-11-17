@@ -13,21 +13,17 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
+import java.util.List;
 
 
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/api/1.0/twitter")
 public class Controller {
     public static final Logger logger = LoggerFactory.getLogger(Controller.class);
-    Request request;
-    PostTweet postTweet;
-    GetTimelineTweets getTimelineTweets;
-    TwitterImplement twitterImplement = new TwitterImplement();
 
-    public Controller(Request request, PostTweet postTweet, GetTimelineTweets getTimelineTweets, TwitterImplement twitterImplement) {
-        this.request = request;
-        this.postTweet = postTweet;
-        this.getTimelineTweets = getTimelineTweets;
+    TwitterImplement twitterImplement;
+
+    public Controller(TwitterImplement twitterImplement) {
         this.twitterImplement = twitterImplement;
     }
 
@@ -37,9 +33,10 @@ public class Controller {
 
     @GET
     @Path("GetTweets")
-    public Response fetchTweets(Request request) {
-        GetTimelineTweets getTimelineTweets = twitterImplement.getRetrieveTweetsObject();
-        return Response.ok(getTimelineTweets.fetchLatestTweets()).build();
+    public Response fetchTweets() {
+        List<String> tweets;
+        tweets = twitterImplement.fetchLatestTweets();
+        return Response.ok(tweets).build();
     }
 
 
@@ -59,8 +56,7 @@ public class Controller {
             logger.error("error happened");
             return Response.status(400, "Please enter valid tweet").build();
         } else {
-            PostTweet postTweet = twitterImplement.getSendTweetObject();
-            Status status = postTweet.sendTweet(post);
+            Status status = twitterImplement.sendTweets(post);
             if (status.getText().equals(post)) {
                 logger.info("successfully posted");
                 return Response.status(200, "Request is successful").build();

@@ -19,22 +19,5 @@ public class GetTimelineTweets {
     public GetTimelineTweets(){
     }
 
-    public ArrayList<String> fetchLatestTweets() {
-        ArrayList<String> arrayList = new ArrayList<String>();
-        try {
-            Twitter twitter  = twitterImplement.getTwitterObject();
-            List<Status> statuses = twitter.getHomeTimeline();
-            for (Status status:statuses) {
-                arrayList.add(status.getText());
-            }
-        } catch (TwitterException e) {
-            logger.error("error occurred", e);
-        }
-        if (arrayList.isEmpty()) {
-            logger.info("No Tweets in timeline");
-            arrayList.add("No Tweets found");
-        }
-        return arrayList;
-    }
 
 }

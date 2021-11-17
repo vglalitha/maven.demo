@@ -1,38 +1,58 @@
 package com.dep.Services;
 
 import com.dep.config.BRSConfiguration;
+import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
+
+import javax.ws.rs.InternalServerErrorException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TwitterImplement {
    BRSConfiguration brsConfiguration;
    ConfigurationBuilder configurationBuilder;
    TwitterFactory twitterFactory;
-   public TwitterImplement(BRSConfiguration brsConfiguration,ConfigurationBuilder configurationBuilder,TwitterFactory twitterFactory)
-   {
-       this.brsConfiguration=brsConfiguration;
-       this.configurationBuilder=configurationBuilder;
-       this.twitterFactory=twitterFactory;
-   }
+   Twitter twitter;
+
    public TwitterImplement(){
+       brsConfiguration = new BRSConfiguration();
+       configurationBuilder = brsConfiguration.configurationBuilder();
+       twitterFactory = new TwitterFactory(configurationBuilder.build());
+       twitter = twitterFactory.getInstance();
+
    }
 
-   public Twitter getTwitterObject(){
-       BRSConfiguration brsConfiguration = new BRSConfiguration();
-       ConfigurationBuilder configurationBuilder= brsConfiguration.configurationBuilder();
-       TwitterFactory twitterFactory = new TwitterFactory(configurationBuilder.build());
-       Twitter twitter = twitterFactory.getInstance();
-       return twitter;
+   public TwitterImplement(TwitterFactory twitterFactory)
+   {
+       this.twitterFactory=twitterFactory;
+       this.twitter = twitterFactory.getInstance();
    }
-    public PostTweet getSendTweetObject()
-    {
-        return new PostTweet(this);
+
+    public Status sendTweets(String tweet) throws TwitterException {
+        Status status;
+        status = twitter.updateStatus(tweet);
+
+        return status;
     }
-    public GetTimelineTweets getRetrieveTweetsObject()
+
+    public ArrayList<String> fetchLatestTweets()
     {
-        return new GetTimelineTweets(this);
+        ArrayList<String> arrayList = new ArrayList<>();
+        try{
+            List<Status> statuses = twitter.getHomeTimeline();
+            for (int i=0;i<statuses.size();i++){
+                Status status = statuses.get(i);
+                arrayList.add(status.getText());
+            }
+        }catch (TwitterException e)
+        {
+            throw new InternalServerErrorException("server error");
+        }
+        return arrayList;
     }
 }
 
