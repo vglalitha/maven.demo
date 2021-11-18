@@ -1,16 +1,17 @@
 package com.test;
 
 import com.dep.Services.TwitterImplement;
-import com.dep.resource.Controller;
+import com.dep.models.TweetRespons;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import twitter4j.*;
-import org.assertj.core.api.Assertions;
+
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -80,7 +81,7 @@ public class TwitterImplementTest {
 
         List<String> expected = Arrays.asList("Tweet1", "Tweet2", "Tweet3");
 
-        List<String> actual = twitterImplement.fetchLatestTweets();
+        ArrayList<TweetRespons> actual = twitterImplement.fetchLatestTweets();
         Assert.assertEquals(expected, actual);
     }
 
