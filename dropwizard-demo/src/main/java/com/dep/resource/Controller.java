@@ -1,69 +1,64 @@
 package com.dep.resource;
 
+import com.dep.Services.TwitterImplement;
 import org.eclipse.jetty.util.StringUtil;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import twitter4j.Status;
+import twitter4j.TwitterException;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.Date;
+import java.util.List;
 
 
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/api/1.0/twitter")
 public class Controller {
-    public static final Logger log =LoggerFactory.getLogger(Controller.class);
 
+    public static final Logger logger = LoggerFactory.getLogger(Controller.class);
+    static TwitterImplement twitterImplement;
+
+    public Controller(TwitterImplement twitterImplement) {
+        this.twitterImplement = twitterImplement;
+    }
+
+    public Controller() {
+        twitterImplement = new TwitterImplement();
+    }
 
     @GET
-    @Path("/GetTweets")
-    public static ArrayList<String> getTweets() throws TwitterException {
-        log.info("into get method");
-        Twitter twitter = TwitterFactory.getSingleton();
-        ArrayList<String> arrayList = new ArrayList<String>();
-        List<Status> status = twitter.getHomeTimeline();
-        for (Status st : status) {
-            arrayList.add(st.getText());
-        }
-        log.info("retrieved posts successfully");
-        return arrayList;
+    @Path("GetTweets")
+    public static Response fetchTweets() {
+        List<String> tweets;
+        tweets = twitterImplement.fetchLatestTweets();
+        return Response.ok(tweets).build();
     }
 
 
     @GET
     @Path("/healthCheck")
     public String healthCheck() {
-        log.info("got into healthCheck");
-        log.trace("home method access");
         return "Ping Received at " + new Date();
     }
 
     @POST
     @Path("/tweetAgain")
-    public Response tweetAgain(Request request) throws TwitterException {
-        log.info("got into post");
-        Twitter twitter = TwitterFactory.getSingleton();
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response sendTweet(Request request) throws TwitterException {
+        logger.info("got into post");
         String post = request.getMessage();
         if (StringUtil.isEmpty(post)) {
-            log.error("error happened");
+            logger.error("error happened");
             return Response.status(400, "Please enter valid tweet").build();
         } else {
-            Status status = twitter.updateStatus(post);
+            Status status = twitterImplement.sendTweets(post);
             if (status.getText().equals(post)) {
-                log.info("successfully posted");
+                logger.info("successfully posted");
                 return Response.status(200, "Request is successful").build();
             } else {
-                log.error("internal error occurred");
+                logger.error("internal error occurred");
                 return Response.status(500, "internal server error").build();
             }
         }
