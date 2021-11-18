@@ -4,7 +4,7 @@ public class TweetRespons {
     String message;
     User user;
     String createdAt;
-    public TweetRespons(String twitterHandle, String name, String profileImageUrl, String message, String createdAt) {
+    public TweetRespons(String message, String twitterHandle,String name, String profileImageUrl,String createdAt) {
         this.message = message;
         this.user = new User(twitterHandle,name,profileImageUrl);
         this.createdAt = createdAt;

@@ -55,9 +55,9 @@ public class TwitterImplement {
             statuses = twitter.getHomeTimeline();
             for (int i = 0; i < statuses.size(); i++) {
                 Status status = statuses.get(i);
-                profileImageUrl = status.getUser().getProfileImageURL();
-                name = status.getUser().getName();
                 message = status.getText();
+                name = status.getUser().getName();
+                profileImageUrl = status.getUser().getProfileImageURL();
                 createdAt = status.getCreatedAt();
                 Format format = new SimpleDateFormat("dd-mm-yyy HH:mm:ss");
                 String date = format.format(createdAt);
