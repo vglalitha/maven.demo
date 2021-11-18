@@ -1,13 +1,15 @@
 package com.test;
 
 import com.dep.Services.TwitterImplement;
+import com.dep.resource.Controller;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import twitter4j.*;
-
+import org.assertj.core.api.Assertions;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.List;
@@ -34,9 +36,13 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void testcase2_checkpost() throws TwitterException {
+    public void testcase2_checkpost() {
         String msg = "message";
-        when(twitter.updateStatus(msg)).thenReturn(status);
+        try {
+            when(twitter.updateStatus(msg)).thenReturn(status);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
         boolean T;
         try {
             Status status = twitter.updateStatus(msg);
@@ -79,9 +85,13 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void testcase1_length() throws TwitterException {
-        String msg = "check postlength";
-        when(twitter.updateStatus(msg)).thenReturn(status);
+    public void testcase1_postTweet() {
+        String msg = "message";
+        try {
+            when(twitter.updateStatus(msg)).thenReturn(status);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
         boolean x;
         try {
             if (msg.length() != 0)
@@ -92,7 +102,6 @@ public class TwitterImplementTest {
         }
         Assert.assertTrue(x);
     }
-
 
     @Test
     public void testCase_fetchNoTweetOnTimeline_successCase() throws TwitterException {
@@ -105,5 +114,9 @@ public class TwitterImplementTest {
 
     }
 
-
+    @Test(expected = InternalServerErrorException.class)
+    public void testCase_exceptionCase() throws TwitterException {
+        when(twitter.getHomeTimeline()).thenThrow(TwitterException.class);
+        twitterImplement.fetchLatestTweets();
+    }
 }

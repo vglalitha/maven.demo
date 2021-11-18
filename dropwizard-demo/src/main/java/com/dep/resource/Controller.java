@@ -18,7 +18,7 @@ import java.util.List;
 public class Controller {
 
     public static final Logger logger = LoggerFactory.getLogger(Controller.class);
-    TwitterImplement twitterImplement;
+    static TwitterImplement twitterImplement;
 
     public Controller(TwitterImplement twitterImplement) {
         this.twitterImplement = twitterImplement;
@@ -30,7 +30,7 @@ public class Controller {
 
     @GET
     @Path("GetTweets")
-    public Response fetchTweets() {
+    public static Response fetchTweets() {
         List<String> tweets;
         tweets = twitterImplement.fetchLatestTweets();
         return Response.ok(tweets).build();
