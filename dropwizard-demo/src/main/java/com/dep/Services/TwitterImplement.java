@@ -16,8 +16,8 @@ import java.util.List;
 
 public class TwitterImplement {
     BRSConfiguration brsConfiguration;
-    ConfigurationBuilder configurationBuilder;
     TwitterFactory twitterFactory;
+    ConfigurationBuilder configurationBuilder;
     Twitter twitter;
     TweetRespons tweetRespons;
 
