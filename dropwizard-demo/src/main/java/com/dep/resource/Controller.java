@@ -10,7 +10,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
-import java.util.List;
+
 
 
 @Produces(MediaType.APPLICATION_JSON)
@@ -31,11 +31,8 @@ public class Controller {
     @GET
     @Path("GetTweets")
     public static Response fetchTweets() {
-        List<String> tweets;
-        tweets = twitterImplement.fetchLatestTweets();
-        return Response.ok(tweets).build();
+        return Response.ok(twitterImplement.fetchLatestTweets()).build();
     }
-
 
     @GET
     @Path("/healthCheck")
