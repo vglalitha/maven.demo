@@ -43,17 +43,17 @@ public class TwitterImplement {
 
 
     public ArrayList<TweetRespons> fetchLatestTweets() {
-        String twitterHandle;
-        String name;
-        String message = null;
-        String profileImageUrl = null;
-        Date createdAt = null;
 
         ArrayList<TweetRespons> arrayList = new ArrayList<>();
         List<Status> statuses = null;
         try {
             statuses = twitter.getHomeTimeline();
             for (int i = 0; i < statuses.size(); i++) {
+                String twitterHandle;
+                String name;
+                String message = null;
+                String profileImageUrl = null;
+                Date createdAt = null;
                 Status status = statuses.get(i);
                 message = status.getText();
                 name = status.getUser().getName();
