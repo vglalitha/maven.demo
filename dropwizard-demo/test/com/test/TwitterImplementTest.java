@@ -34,7 +34,7 @@ public class TwitterImplementTest {
     String twitterHandle = "@case";
     String name = "lalitha";
     String message = "hii";
-    String profileImageUrl="www.KartikGour.com";
+    String profileImageUrl="www.testcase.com";
     Date created;
     String date;
     {
