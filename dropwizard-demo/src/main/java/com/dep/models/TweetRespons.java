@@ -10,7 +10,7 @@ public class TweetRespons {
         this.createdAt = createdAt;
     }
 
-    public TweetRespons() {
+    public TweetRespons(String message, String twitterHandle, String name) {
 
     }
 

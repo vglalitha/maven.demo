@@ -7,11 +7,15 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
+
+import javax.ws.rs.InternalServerErrorException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 public class TwitterImplement {
@@ -30,9 +34,10 @@ public class TwitterImplement {
 
     }
 
-    public TwitterImplement(TwitterFactory twitterFactory) {
+    public TwitterImplement(TwitterFactory twitterFactory,TweetRespons tweetRespons) {
         this.twitterFactory = twitterFactory;
         this.twitter = twitterFactory.getInstance();
+        this.tweetRespons = tweetRespons;
     }
 
     public Status sendTweets(String tweet) throws TwitterException {
@@ -69,5 +74,39 @@ public class TwitterImplement {
         }
         return arrayList;
     }
+
+
+    public List<TweetRespons> getFilteredTweets(String tweets) {
+        ArrayList<TweetRespons> arrayList = new ArrayList<>();
+        List<TweetRespons> filteredTweets;
+        List<Status> statuses = null;
+        try {
+            statuses = twitter.getHomeTimeline();
+            for (int i = 0; i < statuses.size(); i++) {
+                String twitterHandle;
+                String name;
+                String message ;
+                String profileImageUrl ;
+                Date createdAt ;
+                Status status = statuses.get(i);
+                profileImageUrl = status.getUser().getProfileImageURL();
+                name = status.getUser().getName();
+                message = status.getText();
+                createdAt =status.getCreatedAt();
+                Format format = new SimpleDateFormat("dd-mm-yyy HH:mm:ss");
+                String date = format.format(createdAt);
+                twitterHandle = status.getUser().getScreenName();
+                tweetRespons = new TweetRespons(message,name,twitterHandle,profileImageUrl,date);
+                arrayList.add(tweetRespons);
+            }
+        } catch (TwitterException e) {
+           // log.error("error in retrieving tweets ");
+        }
+        int len=tweets.length();
+        CharSequence charSequence=tweets.subSequence(0,len);
+        filteredTweets=arrayList.stream().filter(t->t.getMessage().contains(charSequence)).collect(Collectors.toList());
+        return filteredTweets;
+    }
 }
+
 

@@ -11,12 +11,13 @@ import twitter4j.*;
 
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.core.Response;
+import javax.xml.crypto.Data;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -25,6 +26,10 @@ public class TwitterImplementTest {
     TwitterFactory twitterFactory;
     Twitter twitter;
     Status status;
+    TweetRespons tweetRespons;
+    String twitterHandle = "@case";
+    String name = "lalitha";
+    String message = "hii";
 
     @Before
     public void setUp() {
@@ -32,7 +37,8 @@ public class TwitterImplementTest {
         twitterFactory = mock(TwitterFactory.class);
         twitter = mock(Twitter.class);
         when(twitterFactory.getInstance()).thenReturn(twitter);
-        twitterImplement = new TwitterImplement(twitterFactory);
+        twitterImplement = new TwitterImplement(twitterFactory,tweetRespons);
+        tweetRespons = spy(new TweetRespons(message,twitterHandle,name));
 
     }
 
@@ -66,23 +72,19 @@ public class TwitterImplementTest {
 
     @Test
     public void testCase_fetchTweet_successCase() throws TwitterException {
+        ArrayList<TweetRespons> expectedlist = mock(ArrayList.class);
         ResponseList<Status> responseList = mock(ResponseList.class);
+        User user = mock(User.class);
         Status s1 = mock(Status.class);
-        Status s2 = mock(Status.class);
-        Status s3 = mock(Status.class);
-        when(responseList.size()).thenReturn(3);
+        when(responseList.size()).thenReturn(1);
         when(responseList.get(0)).thenReturn(s1);
-        when(s1.getText()).thenReturn("Tweet1");
-        when(responseList.get(1)).thenReturn(s2);
-        when(s2.getText()).thenReturn("Tweet2");
-        when(responseList.get(2)).thenReturn(s3);
-        when(s3.getText()).thenReturn("Tweet3");
+        when(s1.getUser()).thenReturn(user);
+        when(s1.getUser().getName()).thenReturn(name);
+        when(s1.getText()).thenReturn(message);
         when(twitter.getHomeTimeline()).thenReturn(responseList);
-
-        List<String> expected = Arrays.asList("Tweet1", "Tweet2", "Tweet3");
-
-        ArrayList<TweetRespons> actual = twitterImplement.fetchLatestTweets();
-        Assert.assertEquals(expected, actual);
+        expectedlist.add(tweetRespons);
+        ArrayList<TweetRespons> actuallist = twitterImplement.fetchLatestTweets();
+        Assert.assertEquals(expectedlist, actuallist);
     }
 
     @Test
