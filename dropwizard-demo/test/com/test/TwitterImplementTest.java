@@ -12,9 +12,12 @@ import twitter4j.*;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.core.Response;
 import javax.xml.crypto.Data;
+import java.lang.reflect.Array;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -27,9 +30,21 @@ public class TwitterImplementTest {
     Twitter twitter;
     Status status;
     TweetRespons tweetRespons;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     String twitterHandle = "@case";
     String name = "lalitha";
     String message = "hii";
+    String profileImageUrl="www.KartikGour.com";
+    Date created;
+    String date;
+    {
+        try {
+            created = dateFormat.parse("16-11-2021 01:03:00");
+        } catch (ParseException E) {
+            E.printStackTrace();
+        }
+        date = dateFormat.format(created);
+    }
 
     @Before
     public void setUp() {
@@ -79,11 +94,14 @@ public class TwitterImplementTest {
         when(responseList.size()).thenReturn(1);
         when(responseList.get(0)).thenReturn(s1);
         when(s1.getUser()).thenReturn(user);
+        when(s1.getUser().getProfileImageURL()).thenReturn(profileImageUrl);
         when(s1.getUser().getName()).thenReturn(name);
+        when(s1.getUser().getScreenName()).thenReturn(twitterHandle);
         when(s1.getText()).thenReturn(message);
+        when(s1.getCreatedAt()).thenReturn(created);
         when(twitter.getHomeTimeline()).thenReturn(responseList);
         expectedlist.add(tweetRespons);
-        ArrayList<TweetRespons> actuallist = twitterImplement.fetchLatestTweets();
+        ArrayList<TweetRespons> actuallist = (ArrayList<TweetRespons>) twitterImplement.getFilteredTweets("hii");
         Assert.assertEquals(expectedlist, actuallist);
     }
 
@@ -117,9 +135,12 @@ public class TwitterImplementTest {
 
     }
 
-    @Test(expected = InternalServerErrorException.class)
-    public void testCase_exceptionCase() throws TwitterException {
-        when(twitter.getHomeTimeline()).thenThrow(TwitterException.class);
-        twitterImplement.fetchLatestTweets();
+    @Test
+    public void noTweetMatch_Test() throws TwitterException {
+        ResponseList<Status> responseList = mock(ResponseList.class);
+        when(responseList.size()).thenReturn(0);
+        when(twitter.getHomeTimeline()).thenReturn(responseList);
+        List<TweetRespons> actual = twitterImplement.getFilteredTweets("forest");
+        Assert.assertEquals(Arrays.asList(), actual);
     }
 }
