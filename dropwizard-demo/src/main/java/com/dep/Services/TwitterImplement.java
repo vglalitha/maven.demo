@@ -100,7 +100,6 @@ public class TwitterImplement {
                 arrayList.add(tweetRespons);
             }
         } catch (TwitterException e) {
-           // log.error("error in retrieving tweets ");
         }
         int len=tweets.length();
         CharSequence charSequence=tweets.subSequence(0,len);
