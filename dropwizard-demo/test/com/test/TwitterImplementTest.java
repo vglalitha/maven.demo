@@ -28,7 +28,7 @@ public class TwitterImplementTest {
     Status status;
     TweetResponse tweetResponse;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-    String twitterHandle = "@case";
+    String twitterHandle = "@lalitha_vg";
     String name = "lalitha";
     String message = "hii";
     String profileImageUrl="www.testcase.com";
@@ -55,7 +55,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void testcase2_checkpost() {
+    public void checkPost() {
         String msg = "message";
         try {
             when(twitter.updateStatus(msg)).thenReturn(status);
@@ -74,7 +74,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void testCase_sendTweet_successCase() throws TwitterException {
+    public void sendTweet() throws TwitterException {
         Status expectedTweet = mock((Status.class));
         String message = "hii";
         when(twitter.updateStatus(message)).thenReturn(expectedTweet);
@@ -83,7 +83,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void testCase_fetchTweet_successCase() throws TwitterException {
+    public void fetchTweet() throws TwitterException {
         ArrayList<TweetResponse> expectedlist = mock(ArrayList.class);
         ResponseList<Status> responseList = mock(ResponseList.class);
         User user = mock(User.class);
@@ -103,7 +103,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void testcase1_postTweet() {
+    public void postTweet() {
         String msg = "message";
         try {
             when(twitter.updateStatus(msg)).thenReturn(status);
@@ -122,7 +122,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void testCase_fetchNoTweetOnTimeline_successCase() throws TwitterException {
+    public void fetchNoTweetOnTimeline() throws TwitterException {
         ResponseList<Status> responseList = mock(ResponseList.class);
         when(responseList.size()).thenReturn(0);
         when(twitter.getHomeTimeline()).thenReturn(responseList);
@@ -132,12 +132,14 @@ public class TwitterImplementTest {
 
     }
 
+
     @Test
-    public void noTweetMatch_Test() throws TwitterException {
+    public void noTweetMatch() throws TwitterException {
         ResponseList<Status> responseList = mock(ResponseList.class);
         when(responseList.size()).thenReturn(0);
         when(twitter.getHomeTimeline()).thenReturn(responseList);
         List<TweetResponse> actual = twitterImplement.getFilteredTweets("forest");
         Assert.assertEquals(Arrays.asList(), actual);
     }
+
 }
