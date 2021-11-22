@@ -1,13 +1,13 @@
 package com.dep.resource;
 
 import com.dep.Services.TwitterImplement;
-import com.dep.models.TweetRespons;
+import com.dep.models.TweetResponse;
 import org.eclipse.jetty.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import twitter4j.Status;
-import twitter4j.TweetEntity;
 import twitter4j.TwitterException;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -36,17 +36,14 @@ public class Controller {
         return Response.ok(twitterImplement.fetchLatestTweets()).build();
     }
 
-
     @GET
     @Path("/filteredTweets")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response filteredTweets(@QueryParam("searchKey") String searchKey) throws TwitterException{
-        List<TweetRespons>  response ;
-        response = twitterImplement.getFilteredTweets(searchKey) ;
+    public Response filteredTweets(@QueryParam("searchKey") String searchKey) throws TwitterException {
+        List<TweetResponse> response;
+        response = twitterImplement.getFilteredTweets(searchKey);
         return Response.ok(response).build();
     }
-
-
 
     @GET
     @Path("/healthCheck")

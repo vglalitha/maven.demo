@@ -1,16 +1,16 @@
 package com.dep.models;
 
-public class TweetRespons {
+public class TweetResponse {
     String message;
     User user;
     String createdAt;
-    public TweetRespons(String message, String twitterHandle,String name, String profileImageUrl,String createdAt) {
+    public TweetResponse(String message, String twitterHandle, String name, String profileImageUrl, String createdAt) {
         this.message = message;
         this.user = new User(twitterHandle,name,profileImageUrl);
         this.createdAt = createdAt;
     }
 
-    public TweetRespons(String message, String twitterHandle, String name) {
+    public TweetResponse(String message, String twitterHandle, String name) {
 
     }
 

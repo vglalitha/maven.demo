@@ -1,7 +1,7 @@
 package com.test;
 
 import com.dep.Services.TwitterImplement;
-import com.dep.models.TweetRespons;
+import com.dep.models.TweetResponse;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,10 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import twitter4j.*;
 
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.core.Response;
-import javax.xml.crypto.Data;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +26,7 @@ public class TwitterImplementTest {
     TwitterFactory twitterFactory;
     Twitter twitter;
     Status status;
-    TweetRespons tweetRespons;
+    TweetResponse tweetResponse;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     String twitterHandle = "@case";
     String name = "lalitha";
@@ -52,8 +49,8 @@ public class TwitterImplementTest {
         twitterFactory = mock(TwitterFactory.class);
         twitter = mock(Twitter.class);
         when(twitterFactory.getInstance()).thenReturn(twitter);
-        twitterImplement = new TwitterImplement(twitterFactory,tweetRespons);
-        tweetRespons = spy(new TweetRespons(message,twitterHandle,name));
+        twitterImplement = new TwitterImplement(twitterFactory, tweetResponse);
+        tweetResponse = spy(new TweetResponse(message,twitterHandle,name));
 
     }
 
@@ -87,7 +84,7 @@ public class TwitterImplementTest {
 
     @Test
     public void testCase_fetchTweet_successCase() throws TwitterException {
-        ArrayList<TweetRespons> expectedlist = mock(ArrayList.class);
+        ArrayList<TweetResponse> expectedlist = mock(ArrayList.class);
         ResponseList<Status> responseList = mock(ResponseList.class);
         User user = mock(User.class);
         Status s1 = mock(Status.class);
@@ -100,8 +97,8 @@ public class TwitterImplementTest {
         when(s1.getText()).thenReturn(message);
         when(s1.getCreatedAt()).thenReturn(created);
         when(twitter.getHomeTimeline()).thenReturn(responseList);
-        expectedlist.add(tweetRespons);
-        ArrayList<TweetRespons> actuallist = (ArrayList<TweetRespons>) twitterImplement.getFilteredTweets("hii");
+        expectedlist.add(tweetResponse);
+        ArrayList<TweetResponse> actuallist = (ArrayList<TweetResponse>) twitterImplement.getFilteredTweets("hii");
         Assert.assertEquals(expectedlist, actuallist);
     }
 
@@ -140,7 +137,7 @@ public class TwitterImplementTest {
         ResponseList<Status> responseList = mock(ResponseList.class);
         when(responseList.size()).thenReturn(0);
         when(twitter.getHomeTimeline()).thenReturn(responseList);
-        List<TweetRespons> actual = twitterImplement.getFilteredTweets("forest");
+        List<TweetResponse> actual = twitterImplement.getFilteredTweets("forest");
         Assert.assertEquals(Arrays.asList(), actual);
     }
 }
