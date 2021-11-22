@@ -40,8 +40,7 @@ public class Controller {
     @Path("/filteredTweets")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response filteredTweets(@QueryParam("searchKey") String searchKey) throws TwitterException {
-        List<TweetResponse> response;
-        response = twitterImplement.getFilteredTweets(searchKey);
+        List<TweetResponse> response = twitterImplement.getFilteredTweets(searchKey);
         return Response.ok(response).build();
     }
 

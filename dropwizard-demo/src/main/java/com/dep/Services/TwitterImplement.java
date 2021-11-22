@@ -2,6 +2,7 @@ package com.dep.Services;
 
 import com.dep.config.BRSConfiguration;
 import com.dep.models.TweetResponse;
+import org.slf4j.LoggerFactory;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 
 public class TwitterImplement {
+    public static final org.slf4j.Logger logger = LoggerFactory.getLogger(TwitterImplement.class);
     BRSConfiguration brsConfiguration;
     TwitterFactory twitterFactory;
     ConfigurationBuilder configurationBuilder;
@@ -43,7 +45,6 @@ public class TwitterImplement {
 
 
     public ArrayList<TweetResponse> fetchLatestTweets() {
-
         ArrayList<TweetResponse> arrayList = new ArrayList<>();
         List<Status> statuses = null;
         try {
@@ -62,6 +63,7 @@ public class TwitterImplement {
                 arrayList.add(tweetResponse);
             }
         } catch (TwitterException e) {
+            logger.error("error in fetching tweets");
         }
         return arrayList;
     }
