@@ -54,19 +54,15 @@ public class TwitterImplement {
         try {
             statuses = twitter.getHomeTimeline();
             for (int i = 0; i < statuses.size(); i++) {
-                String twitterHandle;
-                String name;
-                String message = null;
-                String profileImageUrl = null;
                 Date createdAt = null;
                 Status status = statuses.get(i);
-                message = status.getText();
-                name = status.getUser().getName();
-                profileImageUrl = status.getUser().getProfileImageURL();
+                String message = status.getText();
+                String name = status.getUser().getName();
+                String profileImageUrl = status.getUser().getProfileImageURL();
                 createdAt = status.getCreatedAt();
                 Format format = new SimpleDateFormat("dd-mm-yyy HH:mm:ss");
                 String date = format.format(createdAt);
-                twitterHandle = status.getUser().getScreenName();
+                String twitterHandle = status.getUser().getScreenName();
                 tweetRespons = new TweetRespons(message, name, twitterHandle, profileImageUrl, date);
                 arrayList.add(tweetRespons);
             }
@@ -83,19 +79,15 @@ public class TwitterImplement {
         try {
             statuses = twitter.getHomeTimeline();
             for (int i = 0; i < statuses.size(); i++) {
-                String twitterHandle;
-                String name;
-                String message ;
-                String profileImageUrl ;
                 Date createdAt ;
                 Status status = statuses.get(i);
-                profileImageUrl = status.getUser().getProfileImageURL();
-                name = status.getUser().getName();
-                message = status.getText();
+                String profileImageUrl = status.getUser().getProfileImageURL();
+                String name = status.getUser().getName();
+                String message = status.getText();
                 createdAt =status.getCreatedAt();
                 Format format = new SimpleDateFormat("dd-mm-yyy HH:mm:ss");
                 String date = format.format(createdAt);
-                twitterHandle = status.getUser().getScreenName();
+                String twitterHandle = status.getUser().getScreenName();
                 tweetRespons = new TweetRespons(message,name,twitterHandle,profileImageUrl,date);
                 arrayList.add(tweetRespons);
             }
