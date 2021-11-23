@@ -103,7 +103,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void testcase1_postTweet() {
+    public void testCase_postTweet() {
         String msg = "message";
         try {
             when(twitter.updateStatus(msg)).thenReturn(status);
@@ -134,7 +134,7 @@ public class TwitterImplementTest {
 
 
     @Test
-    public void noTweetMatch() throws TwitterException {
+    public void noTweetMatch_successCase() throws TwitterException {
         ResponseList<Status> responseList = mock(ResponseList.class);
         when(responseList.size()).thenReturn(0);
         when(twitter.getHomeTimeline()).thenReturn(responseList);

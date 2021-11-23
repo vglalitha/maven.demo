@@ -45,7 +45,7 @@ public class TwitterImplement {
 
 
     public ArrayList<TweetResponse> fetchLatestTweets() {
-        ArrayList<TweetResponse> TweetList = new ArrayList<>();
+        ArrayList<TweetResponse> tweetList = new ArrayList<>();
         try {
             List<Status> statuses = twitter.getHomeTimeline();
             for (int i = 0; i < statuses.size(); i++) {
@@ -59,12 +59,12 @@ public class TwitterImplement {
                 String date = format.format(createdAt);
                 String twitterHandle = status.getUser().getScreenName();
                 tweetResponse = new TweetResponse(message, name, twitterHandle, profileImageUrl, date);
-                TweetList.add(tweetResponse);
+                tweetList.add(tweetResponse);
             }
         } catch (TwitterException e) {
             logger.error("error in fetching tweets");
         }
-        return TweetList;
+        return tweetList;
     }
 
     public List<TweetResponse> getFilteredTweets(String tweets) {
