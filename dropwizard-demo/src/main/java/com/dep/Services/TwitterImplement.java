@@ -45,10 +45,9 @@ public class TwitterImplement {
 
 
     public ArrayList<TweetResponse> fetchLatestTweets() {
-        ArrayList<TweetResponse> arrayList = new ArrayList<>();
-        List<Status> statuses = null;
+        ArrayList<TweetResponse> TweetList = new ArrayList<>();
         try {
-            statuses = twitter.getHomeTimeline();
+            List<Status> statuses = twitter.getHomeTimeline();
             for (int i = 0; i < statuses.size(); i++) {
                 Date createdAt = null;
                 Status status = statuses.get(i);
@@ -60,22 +59,19 @@ public class TwitterImplement {
                 String date = format.format(createdAt);
                 String twitterHandle = status.getUser().getScreenName();
                 tweetResponse = new TweetResponse(message, name, twitterHandle, profileImageUrl, date);
-                arrayList.add(tweetResponse);
+                TweetList.add(tweetResponse);
             }
         } catch (TwitterException e) {
             logger.error("error in fetching tweets");
         }
-        return arrayList;
+        return TweetList;
     }
 
     public List<TweetResponse> getFilteredTweets(String tweets) {
-        ArrayList<TweetResponse> listTweets = new ArrayList<>();
-        List<TweetResponse> filteredTweets;
-        List<Status> statuses = null;
-        listTweets = fetchLatestTweets();
+        ArrayList<TweetResponse> listTweets = fetchLatestTweets();
         int len=tweets.length();
         CharSequence charSequence=tweets.subSequence(0,len);
-        filteredTweets=listTweets.stream().filter(t->t.getMessage().contains(charSequence)).collect(Collectors.toList());
+        List<TweetResponse> filteredTweets=listTweets.stream().filter(t->t.getMessage().contains(charSequence)).collect(Collectors.toList());
         return filteredTweets;
     }
 

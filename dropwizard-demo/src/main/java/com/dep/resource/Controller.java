@@ -31,7 +31,7 @@ public class Controller {
     }
 
     @GET
-    @Path("/GetTweets")
+    @Path("/getTweets")
     public Response fetchTweets() {
         return Response.ok(twitterImplement.fetchLatestTweets()).build();
     }
