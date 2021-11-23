@@ -7,20 +7,20 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 
 
-public class tweeet extends Application<BRSConfiguration> {
+public class TweetRunner extends Application<BRSConfiguration> {
     BRSConfiguration brsConfiguration;
     Environment environment;
 
-    public tweeet(BRSConfiguration brsConfiguration, Environment environment) {
+    public TweetRunner(BRSConfiguration brsConfiguration, Environment environment) {
         this.brsConfiguration = brsConfiguration;
         this.environment = environment;
     }
 
-    public tweeet() {
+    public TweetRunner() {
     }
 
     public static void main(String[] args) throws Exception {
-        new tweeet().run(args);
+        new TweetRunner().run(args);
     }
 
 

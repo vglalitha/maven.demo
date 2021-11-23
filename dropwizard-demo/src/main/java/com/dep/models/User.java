@@ -1,13 +1,12 @@
 package com.dep.models;
 
-import java.util.ArrayList;
 public class User {
 
     String twitterHandle;
     String name;
     String profileImageUrl;
 
-    public User(String twitterHandle, String name, String profileImageUrl) {
+    public User(String name, String twitterHandle, String profileImageUrl) {
         this.twitterHandle = twitterHandle;
         this.name = name;
         this.profileImageUrl = profileImageUrl;

@@ -1,25 +1,29 @@
 package com.dep.Services;
 
 import com.dep.config.BRSConfiguration;
-import com.dep.models.TweetRespons;
+import com.dep.models.TweetResponse;
+import org.slf4j.LoggerFactory;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
+
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class TwitterImplement {
+    public static final org.slf4j.Logger logger = LoggerFactory.getLogger(TwitterImplement.class);
     BRSConfiguration brsConfiguration;
     TwitterFactory twitterFactory;
     ConfigurationBuilder configurationBuilder;
     Twitter twitter;
-    TweetRespons tweetRespons;
+    TweetResponse tweetResponse;
 
     public TwitterImplement() {
         brsConfiguration = new BRSConfiguration();
@@ -30,9 +34,10 @@ public class TwitterImplement {
 
     }
 
-    public TwitterImplement(TwitterFactory twitterFactory) {
+    public TwitterImplement(TwitterFactory twitterFactory, TweetResponse tweetResponse) {
         this.twitterFactory = twitterFactory;
         this.twitter = twitterFactory.getInstance();
+        this.tweetResponse = tweetResponse;
     }
 
     public Status sendTweets(String tweet) throws TwitterException {
@@ -42,32 +47,37 @@ public class TwitterImplement {
     }
 
 
-    public ArrayList<TweetRespons> fetchLatestTweets() {
-
-        ArrayList<TweetRespons> arrayList = new ArrayList<>();
-        List<Status> statuses = null;
+    public ArrayList<TweetResponse> fetchLatestTweets() {
+        ArrayList<TweetResponse> tweetList = new ArrayList<>();
         try {
-            statuses = twitter.getHomeTimeline();
+            List<Status> statuses = twitter.getHomeTimeline();
             for (int i = 0; i < statuses.size(); i++) {
-                String twitterHandle;
-                String name;
-                String message = null;
-                String profileImageUrl = null;
                 Date createdAt = null;
                 Status status = statuses.get(i);
-                message = status.getText();
-                name = status.getUser().getName();
-                profileImageUrl = status.getUser().getProfileImageURL();
+                String message = status.getText();
+                String name = status.getUser().getName();
+                String profileImageUrl = status.getUser().getProfileImageURL();
                 createdAt = status.getCreatedAt();
                 Format format = new SimpleDateFormat("dd-mm-yyy HH:mm:ss");
                 String date = format.format(createdAt);
-                twitterHandle = status.getUser().getScreenName();
-                tweetRespons = new TweetRespons(message, name, twitterHandle, profileImageUrl, date);
-                arrayList.add(tweetRespons);
+                String twitterHandle = status.getUser().getScreenName();
+                tweetResponse = new TweetResponse(message, name, twitterHandle, profileImageUrl, date);
+                tweetList.add(tweetResponse);
             }
         } catch (TwitterException e) {
+            logger.error("error in fetching tweets");
         }
-        return arrayList;
+        return tweetList;
     }
+
+    public List<TweetResponse> getFilteredTweets(String tweets) {
+        ArrayList<TweetResponse> listTweets = fetchLatestTweets();
+        int len = tweets.length();
+        CharSequence charSequence = tweets.subSequence(0, len);
+        List<TweetResponse> filteredTweets = listTweets.stream().filter(t -> t.getMessage().contains(charSequence)).collect(Collectors.toList());
+        return filteredTweets;
+    }
+
 }
+
 
