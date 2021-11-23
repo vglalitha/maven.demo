@@ -3,7 +3,10 @@ package com.dep.Services;
 import com.dep.config.BRSConfiguration;
 import com.dep.models.TweetResponse;
 import org.slf4j.LoggerFactory;
-import twitter4j.*;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.text.Format;
@@ -69,9 +72,9 @@ public class TwitterImplement {
 
     public List<TweetResponse> getFilteredTweets(String tweets) {
         ArrayList<TweetResponse> listTweets = fetchLatestTweets();
-        int len=tweets.length();
-        CharSequence charSequence=tweets.subSequence(0,len);
-        List<TweetResponse> filteredTweets=listTweets.stream().filter(t->t.getMessage().contains(charSequence)).collect(Collectors.toList());
+        int len = tweets.length();
+        CharSequence charSequence = tweets.subSequence(0, len);
+        List<TweetResponse> filteredTweets = listTweets.stream().filter(t -> t.getMessage().contains(charSequence)).collect(Collectors.toList());
         return filteredTweets;
     }
 
