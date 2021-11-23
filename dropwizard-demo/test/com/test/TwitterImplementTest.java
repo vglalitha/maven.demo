@@ -55,7 +55,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void checkPost() {
+    public void checkPost_successCase() {
         String msg = "message";
         try {
             when(twitter.updateStatus(msg)).thenReturn(status);
@@ -74,7 +74,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void sendTweet() throws TwitterException {
+    public void sendTweet_successCase() throws TwitterException {
         Status expectedTweet = mock((Status.class));
         String message = "hii";
         when(twitter.updateStatus(message)).thenReturn(expectedTweet);
@@ -83,7 +83,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void fetchTweet() throws TwitterException {
+    public void fetchTweet_successCase() throws TwitterException {
         ArrayList<TweetResponse> expectedlist = mock(ArrayList.class);
         ResponseList<Status> responseList = mock(ResponseList.class);
         User user = mock(User.class);
@@ -103,7 +103,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void postTweet() {
+    public void testcase1_postTweet() {
         String msg = "message";
         try {
             when(twitter.updateStatus(msg)).thenReturn(status);
@@ -122,7 +122,7 @@ public class TwitterImplementTest {
     }
 
     @Test
-    public void fetchNoTweetOnTimeline() throws TwitterException {
+    public void fetchNoTweetOnTimeline_successCase() throws TwitterException {
         ResponseList<Status> responseList = mock(ResponseList.class);
         when(responseList.size()).thenReturn(0);
         when(twitter.getHomeTimeline()).thenReturn(responseList);
