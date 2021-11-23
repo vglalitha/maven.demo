@@ -77,6 +77,11 @@ public class TwitterImplement {
         List<TweetResponse> filteredTweets = listTweets.stream().filter(t -> t.getMessage().contains(charSequence)).collect(Collectors.toList());
         return filteredTweets;
     }
+    public List<TweetResponse> getpage(int start, int size) throws TwitterException {
+        ArrayList<TweetResponse> pageList = fetchLatestTweets();
+        return pageList.subList(start,start+size);
+    }
+
 
 }
 

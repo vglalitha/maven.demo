@@ -45,6 +45,14 @@ public class Controller {
     }
 
     @GET
+    @Path("/getPage")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getpage(@QueryParam("start") int start,@QueryParam("size") int size) throws TwitterException {
+        List<TweetResponse> response = twitterImplement.getpage(start, size);
+        return Response.ok(response).build();}
+
+
+    @GET
     @Path("/healthCheck")
     public String healthCheck() {
         return "Ping Received at " + new Date();
