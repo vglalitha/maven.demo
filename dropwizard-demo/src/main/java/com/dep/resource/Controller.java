@@ -5,6 +5,9 @@ import com.dep.models.TweetResponse;
 import org.eclipse.jetty.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.*;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
@@ -14,54 +17,47 @@ import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.List;
 
-
 @Produces(MediaType.APPLICATION_JSON)
-@Path("/api/1.0/twitter")
+@RestController
 public class Controller {
 
     public static final Logger logger = LoggerFactory.getLogger(Controller.class);
+    @Autowired
     TwitterImplement twitterImplement;
 
-    public Controller(TwitterImplement twitterImplement) {
-        this.twitterImplement = twitterImplement;
+    @Bean
+    public TwitterImplement getService(){
+        return new TwitterImplement();
     }
 
-    public Controller() {
-        twitterImplement = new TwitterImplement();
-    }
 
-    @GET
-    @Path("/getTweets")
+    @RequestMapping(value = "getTweets",method = RequestMethod.GET)
     public Response fetchTweets() {
         return Response.ok(twitterImplement.fetchLatestTweets()).build();
     }
 
-    @GET
-    @Path("/filteredTweets")
+    @RequestMapping("/filteredTweets/{searchKey}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response filteredTweets(@QueryParam("searchKey") String searchKey) throws TwitterException {
+    public Response filteredTweets(@PathVariable String searchKey) throws TwitterException {
         List<TweetResponse> response = twitterImplement.getFilteredTweets(searchKey);
         return Response.ok(response).build();
     }
 
-    @GET
-    @Path("/getPage")
+    @RequestMapping("/getPage/start/{start}/size/{size}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getpage(@QueryParam("start") int start,@QueryParam("size") int size) throws TwitterException {
+    public Response getpage(@PathVariable int start, @PathVariable int size) throws TwitterException {
         List<TweetResponse> response = twitterImplement.getpage(start, size);
         return Response.ok(response).build();}
 
 
-    @GET
-    @Path("/healthCheck")
+    @RequestMapping("/healthCheck")
     public String healthCheck() {
         return "Ping Received at " + new Date();
     }
 
-    @POST
-    @Path("/tweetAgain")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response sendTweet(Request request) throws TwitterException {
+
+    @RequestMapping(method = RequestMethod.POST, value = "/tweetAgain")
+    public Response sendTweet(@RequestBody Request request) throws TwitterException {
         logger.info("got into post");
         String post = request.getMessage();
         if (StringUtil.isEmpty(post)) {

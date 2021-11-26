@@ -3,6 +3,9 @@ package com.dep.Services;
 import com.dep.config.BRSConfiguration;
 import com.dep.models.TweetResponse;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -16,22 +19,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Service
 public class TwitterImplement {
     public static final org.slf4j.Logger logger = LoggerFactory.getLogger(TwitterImplement.class);
     BRSConfiguration brsConfiguration;
-    TwitterFactory twitterFactory;
     ConfigurationBuilder configurationBuilder;
-    Twitter twitter;
+    TwitterFactory twitterFactory;
     TweetResponse tweetResponse;
+    Twitter twitter;
 
+    @Autowired
     public TwitterImplement() {
         brsConfiguration = new BRSConfiguration();
         configurationBuilder = brsConfiguration.configurationBuilder();
         twitterFactory = new TwitterFactory(configurationBuilder.build());
         twitter = twitterFactory.getInstance();
-
-
     }
 
     public TwitterImplement(TwitterFactory twitterFactory, TweetResponse tweetResponse) {

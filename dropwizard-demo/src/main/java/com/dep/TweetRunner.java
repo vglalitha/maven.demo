@@ -5,8 +5,10 @@ import com.dep.config.BRSConfiguration;
 import com.dep.resource.Controller;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
+@SpringBootApplication(scanBasePackages = { "com.dep.resource","com.dep.Services","com.dep.config" })
 public class TweetRunner extends Application<BRSConfiguration> {
     BRSConfiguration brsConfiguration;
     Environment environment;
@@ -20,7 +22,7 @@ public class TweetRunner extends Application<BRSConfiguration> {
     }
 
     public static void main(String[] args) throws Exception {
-        new TweetRunner().run(args);
+        SpringApplication.run(TweetRunner.class,args);
     }
 
 
