@@ -1,17 +1,18 @@
 package com.dep.resource;
 
 import com.dep.Services.TwitterImplement;
+import com.dep.models.SendResponse;
 import com.dep.models.TweetResponse;
 import org.eclipse.jetty.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
@@ -25,16 +26,12 @@ public class Controller {
     @Autowired
     TwitterImplement twitterImplement;
 
-    @Bean
-    public TwitterImplement getService(){
-        return new TwitterImplement();
-    }
 
-
-    @RequestMapping(value = "getTweets",method = RequestMethod.GET)
+    @GetMapping("/getTweets")
     public Response fetchTweets() {
         return Response.ok(twitterImplement.fetchLatestTweets()).build();
     }
+
 
     @RequestMapping("/filteredTweets/{searchKey}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -47,7 +44,8 @@ public class Controller {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getpage(@PathVariable int start, @PathVariable int size) throws TwitterException {
         List<TweetResponse> response = twitterImplement.getpage(start, size);
-        return Response.ok(response).build();}
+        return Response.ok(response).build();
+    }
 
 
     @RequestMapping("/healthCheck")
@@ -57,20 +55,20 @@ public class Controller {
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/tweetAgain")
-    public Response sendTweet(@RequestBody Request request) throws TwitterException {
+    public SendResponse sendTweet(@RequestBody Request request) throws TwitterException {
         logger.info("got into post");
         String post = request.getMessage();
         if (StringUtil.isEmpty(post)) {
             logger.error("error happened");
-            return Response.status(400, "Please enter valid tweet").build();
+            return new SendResponse("Please enter valid tweet", 400);
         } else {
             Status status = twitterImplement.sendTweets(post);
             if (status.getText().equals(post)) {
                 logger.info("successfully posted");
-                return Response.status(200, "Request is successful").build();
+                return new SendResponse("Tweet posted Successfully", 200);
             } else {
                 logger.error("internal error occurred");
-                return Response.status(500, "internal server error").build();
+                return new SendResponse("internal server error", 500);
             }
         }
 

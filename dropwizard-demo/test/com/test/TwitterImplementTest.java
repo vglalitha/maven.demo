@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import twitter4j.*;
 
 import javax.ws.rs.core.Response;
@@ -18,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class TwitterImplementTest {
@@ -141,5 +141,6 @@ public class TwitterImplementTest {
         List<TweetResponse> actual = twitterImplement.getFilteredTweets("forest");
         Assert.assertEquals(Arrays.asList(), actual);
     }
+
 
 }
