@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -17,6 +18,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.List;
 
@@ -28,31 +30,30 @@ public class Controller {
     @Autowired
     TwitterImplement twitterImplement;
 
-    @RequestMapping("/getTweets")
+    @RequestMapping(method = RequestMethod.GET, value = "/getTweets")
     public List<TweetResponse> fetchTweets() {
         return twitterImplement.fetchLatestTweets();
     }
 
-    @RequestMapping("/filteredTweets")
+    @RequestMapping(method = RequestMethod.GET, value = "/filteredTweets")
     @Consumes(MediaType.APPLICATION_JSON)
     public List<TweetResponse> filteredTweets(@QueryParam("searchKey") String searchKey) {
         return twitterImplement.getFilteredTweets(searchKey);
     }
 
-    @RequestMapping("/getPage")
+    @RequestMapping(method = RequestMethod.GET, value = "/getPage")
     @Consumes(MediaType.APPLICATION_JSON)
     public List<TweetResponse> getPage(@QueryParam("start") int start, @QueryParam("size") int size) throws TwitterException {
         return twitterImplement.getpage(start, size);
     }
 
-    @RequestMapping("/healthCheck")
+    @RequestMapping(method = RequestMethod.GET, value = "/healthCheck")
     public String healthCheck() {
         return "Ping Received at " + new Date();
     }
 
-    @RequestMapping("/tweetAgain")
-    public SendResponse sendTweet(@RequestBody Request request) {
-        try {
+    @RequestMapping(method = RequestMethod.POST, value = "/tweetAgain")
+    public SendResponse sendTweet(@RequestBody Request request) throws TwitterException {
             logger.info("got into post");
             String post = request.getMessage();
             if (StringUtil.isEmpty(post)) {
@@ -65,12 +66,8 @@ public class Controller {
                     return new SendResponse("Tweet posted Successfully", 200);
                 } else {
                     logger.error("internal error occurred");
-                    return new SendResponse("internal server error", 500);
+                    return new SendResponse("Request incomplete", 500);
                 }
             }
-        } catch (Exception e) {
-            System.out.println(e);
-            return null;
-        }
     }
 }
