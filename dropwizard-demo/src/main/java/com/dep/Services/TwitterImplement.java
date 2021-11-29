@@ -4,7 +4,6 @@ import com.dep.config.BRSConfiguration;
 import com.dep.models.TweetResponse;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -47,7 +46,6 @@ public class TwitterImplement {
         status = twitter.updateStatus(tweet);
         return status;
     }
-
 
     public ArrayList<TweetResponse> fetchLatestTweets() {
         ArrayList<TweetResponse> tweetList = new ArrayList<>();
