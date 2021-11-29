@@ -66,7 +66,7 @@ public class Controller {
                     return new SendResponse("Tweet posted Successfully", 200);
                 } else {
                     logger.error("internal error occurred");
-                    return new SendResponse("Request incomplete", 500);
+                    return new SendResponse("Request is incomplete", 500);
                 }
             }
     }
