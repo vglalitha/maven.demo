@@ -7,18 +7,20 @@ import org.eclipse.jetty.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.List;
 
@@ -36,13 +38,11 @@ public class Controller {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/filteredTweets")
-    @Consumes(MediaType.APPLICATION_JSON)
     public List<TweetResponse> filteredTweets(@QueryParam("searchKey") String searchKey) {
         return twitterImplement.getFilteredTweets(searchKey);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getPage")
-    @Consumes(MediaType.APPLICATION_JSON)
     public List<TweetResponse> getPage(@QueryParam("start") int start, @QueryParam("size") int size) throws TwitterException {
         return twitterImplement.getpage(start, size);
     }
@@ -53,21 +53,22 @@ public class Controller {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/tweetAgain")
-    public SendResponse sendTweet(@RequestBody Request request) throws TwitterException {
-            logger.info("got into post");
-            String post = request.getMessage();
-            if (StringUtil.isEmpty(post)) {
-                logger.error("error happened");
-                return new SendResponse("Please enter valid tweet", 400);
+    public ResponseEntity<SendResponse> sendTweet(@RequestBody Request request) throws TwitterException {
+        logger.info("got into post");
+        String post = request.getMessage();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        if (StringUtil.isEmpty(post)) {
+            logger.error("error happened");
+            return new ResponseEntity(new SendResponse("Invalid!,please enter a valid tweet"), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        } else {
+            Status status = twitterImplement.sendTweets(post);
+            if (status.getText().equals(post)) {
+                logger.info("successfully posted");
+                return new ResponseEntity(new SendResponse("Tweet successfully posted"), new HttpHeaders(), HttpStatus.OK);
             } else {
-                Status status = twitterImplement.sendTweets(post);
-                if (status.getText().equals(post)) {
-                    logger.info("successfully posted");
-                    return new SendResponse("Tweet posted Successfully", 200);
-                } else {
-                    logger.error("internal error occurred");
-                    return new SendResponse("Request is incomplete", 500);
-                }
+                logger.error("internal error occurred");
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Request is incomplete");
             }
+        }
     }
 }
