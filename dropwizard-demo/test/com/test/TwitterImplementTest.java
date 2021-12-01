@@ -19,7 +19,6 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class TwitterImplementTest {
     TwitterImplement twitterImplement;
@@ -141,5 +140,6 @@ public class TwitterImplementTest {
         List<TweetResponse> actual = twitterImplement.getFilteredTweets("forest");
         Assert.assertEquals(Arrays.asList(), actual);
     }
+
 
 }
