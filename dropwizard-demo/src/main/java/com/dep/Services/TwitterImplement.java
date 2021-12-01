@@ -4,6 +4,9 @@ import com.dep.config.BRSConfiguration;
 import com.dep.models.TweetResponse;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -18,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CacheConfig(cacheNames = {"getTweets","filteredTweets"})
 @Service
 public class TwitterImplement {
     public static final org.slf4j.Logger logger = LoggerFactory.getLogger(TwitterImplement.class);
@@ -41,12 +45,16 @@ public class TwitterImplement {
         this.tweetResponse = tweetResponse;
     }
 
+
+    @Cacheable(cacheNames = {"getTweets"})
+    @CacheEvict(cacheNames = {"getTweets"},allEntries = true)
     public Status sendTweets(String tweet) throws TwitterException {
         Status status;
         status = twitter.updateStatus(tweet);
         return status;
     }
 
+    @Cacheable(cacheNames = {"getTweets"})
     public ArrayList<TweetResponse> fetchLatestTweets() {
         ArrayList<TweetResponse> tweetList = new ArrayList<>();
         try {
@@ -70,6 +78,7 @@ public class TwitterImplement {
         return tweetList;
     }
 
+    @Cacheable(cacheNames = {"filteredTweets"})
     public List<TweetResponse> getFilteredTweets(String tweets) {
         ArrayList<TweetResponse> listTweets = fetchLatestTweets();
         int len = tweets.length();
@@ -77,6 +86,7 @@ public class TwitterImplement {
         List<TweetResponse> filteredTweets = listTweets.stream().filter(t -> t.getMessage().contains(charSequence)).collect(Collectors.toList());
         return filteredTweets;
     }
+
     public List<TweetResponse> getpage(int start, int size) throws TwitterException {
         ArrayList<TweetResponse> pageList = fetchLatestTweets();
         return pageList.subList(start,start+size);

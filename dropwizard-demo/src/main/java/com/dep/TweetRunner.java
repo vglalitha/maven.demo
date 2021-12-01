@@ -7,7 +7,9 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
+@EnableCaching
 @SpringBootApplication(scanBasePackages = { "com.dep.resource","com.dep.Services","com.dep.config" })
 public class TweetRunner extends Application<BRSConfiguration> {
     BRSConfiguration brsConfiguration;
