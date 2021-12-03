@@ -63,7 +63,7 @@ public class TwitterImplementTest {
         }
         boolean T;
         try {
-            Status status = twitter.updateStatus(msg);
+            twitter.updateStatus(msg);
             T = true;
         } catch (Exception e) {
             T = false;
@@ -97,8 +97,8 @@ public class TwitterImplementTest {
         when(s1.getCreatedAt()).thenReturn(created);
         when(twitter.getHomeTimeline()).thenReturn((ResponseList<Status>) responseList);
         expectedList.add(tweetResponse);
-        List<TweetResponse> actuallist = twitterImplement.getFilteredTweets("hii");
-        Assert.assertEquals(expectedList.size(), actuallist.size());
+        List<TweetResponse> actualList = twitterImplement.getFilteredTweets("hii");
+        Assert.assertEquals(expectedList.size(), actualList.size());
     }
 
     @Test
