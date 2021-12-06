@@ -30,9 +30,10 @@ public class TwitterImplementTest {
     String twitterHandle = "@lalitha_vg";
     String name = "lalitha";
     String message = "hii";
-    String profileImageUrl="www.testcase.com";
+    String profileImageUrl = "www.testcase.com";
     Date created;
     String date;
+
     {
         try {
             created = dateFormat.parse("16-11-2021 01:03:00");
@@ -49,7 +50,7 @@ public class TwitterImplementTest {
         twitter = mock(Twitter.class);
         when(twitterFactory.getInstance()).thenReturn(twitter);
         twitterImplement = new TwitterImplement(twitterFactory, tweetResponse);
-        tweetResponse = spy(new TweetResponse(message,twitterHandle,name));
+        tweetResponse = spy(new TweetResponse(message, twitterHandle, name));
 
     }
 
@@ -69,7 +70,6 @@ public class TwitterImplementTest {
             T = false;
         }
         Assert.assertTrue(T);
-
     }
 
     @Test
@@ -128,9 +128,7 @@ public class TwitterImplementTest {
         Response responseExpected = Response.ok(responseList).build();
         Response responseActual = Response.ok(twitterImplement.fetchLatestTweets()).build();
         Assert.assertEquals(responseExpected.getLength(), responseActual.getLength());
-
     }
-
 
     @Test
     public void noTweetMatch_successCase() throws TwitterException {
@@ -140,6 +138,4 @@ public class TwitterImplementTest {
         List<TweetResponse> actual = twitterImplement.getFilteredTweets("forest");
         Assert.assertEquals(Arrays.asList(), actual);
     }
-
-
 }

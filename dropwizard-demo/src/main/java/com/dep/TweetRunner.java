@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
 @EnableCaching
-@SpringBootApplication(scanBasePackages = { "com.dep.resource","com.dep.Services","com.dep.config" })
+@SpringBootApplication(scanBasePackages = {"com.dep.resource", "com.dep.Services", "com.dep.config"})
 public class TweetRunner extends Application<BRSConfiguration> {
     BRSConfiguration brsConfiguration;
     Environment environment;
@@ -24,14 +24,12 @@ public class TweetRunner extends Application<BRSConfiguration> {
     }
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(TweetRunner.class,args);
+        SpringApplication.run(TweetRunner.class, args);
     }
-
 
     @Override
     public void run(BRSConfiguration brsConfiguration, Environment environment) throws Exception {
         environment.jersey().register(new Controller());
-
     }
 
 }

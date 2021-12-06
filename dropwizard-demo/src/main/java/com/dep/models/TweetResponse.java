@@ -4,9 +4,10 @@ public class TweetResponse {
     String message;
     User user;
     String createdAt;
+
     public TweetResponse(String message, String twitterHandle, String name, String profileImageUrl, String createdAt) {
         this.message = message;
-        this.user = new User(twitterHandle,name,profileImageUrl);
+        this.user = new User(twitterHandle, name, profileImageUrl);
         this.createdAt = createdAt;
     }
 
@@ -14,12 +15,12 @@ public class TweetResponse {
 
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getMessage() {

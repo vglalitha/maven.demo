@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CacheConfig(cacheNames = {"getTweets","filteredTweets"})
+@CacheConfig(cacheNames = {"getTweets", "filteredTweets"})
 @Service
 public class TwitterImplement {
     public static final org.slf4j.Logger logger = LoggerFactory.getLogger(TwitterImplement.class);
@@ -48,7 +48,7 @@ public class TwitterImplement {
 
 
     @Cacheable(cacheNames = {"getTweets"})
-    @CacheEvict(cacheNames = {"getTweets"},allEntries = true)
+    @CacheEvict(cacheNames = {"getTweets"}, allEntries = true)
     public Status sendTweets(String tweet) throws TwitterException {
         Status status;
         status = twitter.updateStatus(tweet);
@@ -61,9 +61,9 @@ public class TwitterImplement {
         ArrayList<TweetResponse> tweetList = new ArrayList<>();
         try {
             List<Status> statuses = twitter.getHomeTimeline();
-            for (int i = 0; i < statuses.size(); i++) {
+            for (Status value : statuses) {
                 Date createdAt = null;
-                Status status = statuses.get(i);
+                Status status = value;
                 String message = status.getText();
                 String name = status.getUser().getName();
                 String profileImageUrl = status.getUser().getProfileImageURL();
@@ -89,9 +89,9 @@ public class TwitterImplement {
         return filteredTweets;
     }
 
-    public List<TweetResponse> getpage(int start, int size) throws TwitterException {
+    public List<TweetResponse> getPage(int start, int size) throws TwitterException {
         ArrayList<TweetResponse> pageList = fetchLatestTweets();
-        return pageList.subList(start,start+size);
+        return pageList.subList(start, start + size);
     }
 
 

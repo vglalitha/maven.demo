@@ -8,15 +8,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-
 public class BRSConfiguration extends Configuration {
-    String filepath="twitter4j.yml";
-    String accessTokenSecret="";
-    String consumerSecret="";
-    String consumerKey="";
-    String accessToken="";
-    Properties properties=new Properties();
+    String filepath = "twitter4j.yml";
+    String accessTokenSecret = "";
+    String consumerSecret = "";
+    String consumerKey = "";
+    String accessToken = "";
+    Properties properties = new Properties();
     FileInputStream fileInputStream;
+
     {
         try {
             fileInputStream = new FileInputStream(filepath);
@@ -28,11 +28,12 @@ public class BRSConfiguration extends Configuration {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        accessTokenSecret= properties.getProperty("accessTokenSecret");
-        consumerSecret= properties.getProperty("consumerSecret");
-        consumerKey= properties.getProperty("consumerKey");
-        accessToken= properties.getProperty("accessToken");
+        accessTokenSecret = properties.getProperty("accessTokenSecret");
+        consumerSecret = properties.getProperty("consumerSecret");
+        consumerKey = properties.getProperty("consumerKey");
+        accessToken = properties.getProperty("accessToken");
     }
+
     public ConfigurationBuilder configurationBuilder() {
         ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.setDebugEnabled(true)

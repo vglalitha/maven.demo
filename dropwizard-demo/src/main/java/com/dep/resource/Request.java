@@ -5,7 +5,8 @@ public class Request {
 
     public Request() {
     }
-    public Request(String message){
+
+    public Request(String message) {
         this.message = message;
     }
 
