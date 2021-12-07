@@ -32,16 +32,33 @@ public class Controller {
     @Autowired
     TwitterImplement twitterImplement;
 
+    /**
+     * fetchTweets method used to fetch tweets which is returned from TwitterImplement.fetchLatestTweets().
+     *
+     * @return used to return tweets as response.
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/getTweets")
     public List<TweetResponse> fetchTweets() {
         return twitterImplement.fetchLatestTweets();
     }
 
+    /**
+     * filteredTweets method used to fetch filtered tweets from TwitterImplement.getFilteredTweets().
+     *
+     * @param searchKey of matching string
+     * @return used to return filtered tweets as response.
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/filteredTweets")
     public List<TweetResponse> filteredTweets(@QueryParam("searchKey") String searchKey) {
         return twitterImplement.getFilteredTweets(searchKey);
     }
 
+    /**
+     * getPage method used to fetch filtered tweets from TwitterImplement.getFilteredTweets().
+     *
+     * @param start size of page
+     * @return used to return filtered tweets as response.
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/getPage")
     public List<TweetResponse> getPage(@QueryParam("start") int start, @QueryParam("size") int size) throws TwitterException {
         return twitterImplement.getPage(start, size);
@@ -52,6 +69,14 @@ public class Controller {
         return "Ping Received at " + new Date();
     }
 
+    /**
+     * sendTweet method used to give response on post tweet to user timeline.
+     * <p>
+     * request used to get tweets which has to be posted.
+     *
+     * @param request used for requesting Configuration
+     * @return used to return response \t based on successful or unsuccessful post of tweet.
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/tweetAgain")
     public ResponseEntity<SendResponse> sendTweet(@RequestBody Request request) throws TwitterException {
         Logger.info("got into post");

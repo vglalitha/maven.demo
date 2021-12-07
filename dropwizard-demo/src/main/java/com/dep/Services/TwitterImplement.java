@@ -47,6 +47,11 @@ public class TwitterImplement {
     }
 
 
+    /**
+     * @param tweet
+     * @return This method will return Status object
+     * which contains status of tweet which is posted on timeline
+     */
     @Cacheable(cacheNames = {"getTweets"})
     @CacheEvict(cacheNames = {"getTweets"}, allEntries = true)
     public Status sendTweets(String tweet) throws TwitterException {
@@ -55,6 +60,11 @@ public class TwitterImplement {
         return status;
     }
 
+    /**
+     * fetchLatestTweets() used to fetch tweets from user timeline.
+     *
+     * @return returns tweets to resources class.
+     */
     @Cacheable(cacheNames = {"getTweets"})
     @Scheduled(fixedRate = 2000)
     public ArrayList<TweetResponse> fetchLatestTweets() {
@@ -80,6 +90,12 @@ public class TwitterImplement {
         return tweetList;
     }
 
+    /**
+     * getFilteredTweets() used to get filtered tweets from user timeline.
+     *
+     * @param tweets is used to search in a list of tweets.
+     * @return returns filtered tweets.
+     */
     @Cacheable(cacheNames = {"filteredTweets"})
     public List<TweetResponse> getFilteredTweets(String tweets) {
         ArrayList<TweetResponse> listTweets = fetchLatestTweets();
@@ -89,6 +105,12 @@ public class TwitterImplement {
         return filteredTweets;
     }
 
+    /**
+     * getPage() used to get filtered tweets from user timeline.
+     *
+     * @param start size is used to search in a list of tweets.
+     * @return returns filtered tweets.
+     */
     public List<TweetResponse> getPage(int start, int size) throws TwitterException {
         ArrayList<TweetResponse> pageList = fetchLatestTweets();
         return pageList.subList(start, start + size);

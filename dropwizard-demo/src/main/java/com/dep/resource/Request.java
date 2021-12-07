@@ -1,5 +1,7 @@
 package com.dep.resource;
 
+/*** this class is used to take tweet from user
+ */
 public class Request {
     String message;
 
