@@ -28,23 +28,40 @@ import java.util.List;
 @RestController
 public class Controller {
 
-    public static final Logger logger = LoggerFactory.getLogger(Controller.class);
+    public static final Logger Logger = LoggerFactory.getLogger(Controller.class);
     @Autowired
     TwitterImplement twitterImplement;
 
+    /**
+     * fetchTweets method used to fetch tweets which is returned from TwitterImplement.fetchLatestTweets().
+     *
+     * @return used to return tweets as response.
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/getTweets")
     public List<TweetResponse> fetchTweets() {
         return twitterImplement.fetchLatestTweets();
     }
 
+    /**
+     * filteredTweets method used to fetch filtered tweets from TwitterImplement.getFilteredTweets().
+     *
+     * @param searchKey of matching string
+     * @return used to return filtered tweets as response.
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/filteredTweets")
     public List<TweetResponse> filteredTweets(@QueryParam("searchKey") String searchKey) {
         return twitterImplement.getFilteredTweets(searchKey);
     }
 
+    /**
+     * getPage method used to fetch filtered tweets from TwitterImplement.getFilteredTweets().
+     *
+     * @param start size of page
+     * @return used to return filtered tweets as response.
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/getPage")
     public List<TweetResponse> getPage(@QueryParam("start") int start, @QueryParam("size") int size) throws TwitterException {
-        return twitterImplement.getpage(start, size);
+        return twitterImplement.getPage(start, size);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/healthCheck")
@@ -52,21 +69,29 @@ public class Controller {
         return "Ping Received at " + new Date();
     }
 
+    /**
+     * sendTweet method used to give response on post tweet to user timeline.
+     * <p>
+     * request used to get tweets which has to be posted.
+     *
+     * @param request used for requesting Configuration
+     * @return used to return response \t based on successful or unsuccessful post of tweet.
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/tweetAgain")
     public ResponseEntity<SendResponse> sendTweet(@RequestBody Request request) throws TwitterException {
-        logger.info("got into post");
+        Logger.info("got into post");
         String post = request.getMessage();
         HttpHeaders responseHeaders = new HttpHeaders();
         if (StringUtil.isEmpty(post)) {
-            logger.error("error happened");
+            Logger.error("error happened");
             return new ResponseEntity(new SendResponse("Invalid!,please enter a valid tweet"), new HttpHeaders(), HttpStatus.BAD_REQUEST);
         } else {
             Status status = twitterImplement.sendTweets(post);
             if (status.getText().equals(post)) {
-                logger.info("successfully posted");
+                Logger.info("successfully posted");
                 return new ResponseEntity(new SendResponse("Tweet successfully posted"), new HttpHeaders(), HttpStatus.OK);
             } else {
-                logger.error("internal error occurred");
+                Logger.error("internal error occurred");
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Request is incomplete");
             }
         }

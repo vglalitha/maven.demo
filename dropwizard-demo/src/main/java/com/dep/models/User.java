@@ -1,5 +1,8 @@
 package com.dep.models;
 
+/**
+ * User class contains user details
+ */
 public class User {
 
     String twitterHandle;
